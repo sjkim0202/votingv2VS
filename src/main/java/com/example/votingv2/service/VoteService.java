@@ -1,15 +1,19 @@
 package com.example.votingv2.service;
 
+import com.example.votingv2.blockchain.BlockchainVoteService;
 import com.example.votingv2.dto.VoteRequest;
 import com.example.votingv2.dto.VoteResponse;
+import com.example.votingv2.dto.VoteResultResponseDto;
 import com.example.votingv2.entity.*;
 import com.example.votingv2.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -23,6 +27,7 @@ public class VoteService {
     private final UserRepository userRepository;
     private final VoteItemRepository voteItemRepository;
     private final VoteResultRepository voteResultRepository;
+    private final BlockchainVoteService blockchainVoteService;
 
     /**
      * 투표 생성 처리
@@ -39,7 +44,6 @@ public class VoteService {
                 .isPublic(false)
                 .isDeleted(false)
                 .createdAt(LocalDateTime.now())
-
                 .startTime(request.getStartTime())  // 추가
                 .build();
 
@@ -58,6 +62,15 @@ public class VoteService {
                             .build())
                     .toList();
             voteItemRepository.saveAll(items);
+        }
+        // ✅ 블록체인에도 투표 생성
+        try {
+            List<String> itemTexts = request.getItems().stream()
+                    .map(VoteRequest.VoteItemRequest::getItemText)
+                    .toList();
+            blockchainVoteService.createVote(request.getTitle(), itemTexts);
+        } catch (Exception e) {
+            System.err.println("⚠️ 블록체인 투표 생성 실패: " + e.getMessage());
         }
 
         return toResponse(savedVote);
@@ -89,6 +102,35 @@ public class VoteService {
                 .build();
 
         voteResultRepository.save(result);
+        // ✅ 블록체인에도 투표 기록
+        try {
+            // 1. 해당 투표에 속한 항목들 순서대로 가져오기
+            List<VoteItem> items = voteItemRepository.findByVoteIdOrderByIdAsc(voteId);
+
+            // 2. 선택된 항목의 인덱스 계산
+            int itemIndex = -1;
+            for (int i = 0; i < items.size(); i++) {
+                if (items.get(i).getId().equals(selectedItem.getId())) {
+                    itemIndex = i;
+                    break;
+                }
+            }
+
+            System.out.println("🧾 itemIndex: " + itemIndex);
+            System.out.println("🧾 items.size(): " + items.size());
+
+            if (itemIndex == -1) {
+                throw new IllegalStateException("항목 인덱스를 찾을 수 없습니다.");
+            }
+
+            // 3. 블록체인 submit 호출
+            blockchainVoteService.submitVote(
+                    BigInteger.valueOf(voteId),
+                    BigInteger.valueOf(itemIndex)
+            );
+        } catch (Exception e) {
+            System.err.println("⚠️ 블록체인 투표 제출 실패: " + e.getMessage());
+        }
     }
 
     /**
@@ -98,14 +140,14 @@ public class VoteService {
         Vote vote = voteRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 ID의 투표가 존재하지 않습니다."));
 
-        List<VoteItem> items = voteItemRepository.findByVoteId(id);
+        List<VoteItem> items = voteItemRepository.findByVoteIdOrderByIdAsc(id);
 
         return VoteResponse.builder()
                 .id(vote.getId())
                 .title(vote.getTitle())
                 .description(vote.getDescription())
                 .deadline(vote.getDeadline())
-               
+
                 .createdAt(vote.getCreatedAt())
                 .items(items.stream()
                         .map(item -> VoteResponse.Item.builder()
@@ -153,7 +195,7 @@ public class VoteService {
                 .orElseThrow(() -> new IllegalArgumentException("투표 없음"));
 
         // 투표 결과 및 항목도 함께 삭제
-        List<VoteItem> voteItems = voteItemRepository.findByVoteId(voteId);
+        List<VoteItem> voteItems = voteItemRepository.findByVoteIdOrderByIdAsc(voteId);
         for (VoteItem item : voteItems) {
             voteResultRepository.deleteAll(voteResultRepository.findByVoteItemId(item.getId()));
         }
@@ -174,7 +216,7 @@ public class VoteService {
      * 내부 변환 로직: Vote 엔티티 → VoteResponse DTO
      */
     private VoteResponse toResponse(Vote vote) {
-        List<VoteItem> items = voteItemRepository.findByVoteId(vote.getId());
+        List<VoteItem> items = voteItemRepository.findByVoteIdOrderByIdAsc(vote.getId());
 
         //  현재 시간이 마감일 이후면 true
         boolean isClosed = LocalDateTime.now().isAfter(vote.getDeadline());
@@ -211,6 +253,22 @@ public class VoteService {
         Vote vote = voteRepository.findById(voteId)
                 .orElseThrow(() -> new IllegalArgumentException("투표 없음"));
         vote.setPublic(!vote.isPublic());
+    }
+
+
+    @Transactional //블록체인 결과조회
+    public VoteResultResponseDto getBlockchainResult(Long voteId) throws Exception {
+        Map<String, Object> result = blockchainVoteService.getVoteResult(BigInteger.valueOf(voteId));
+
+        @SuppressWarnings("unchecked")
+        List<String> items = (List<String>) result.get("items");
+
+        @SuppressWarnings("unchecked")
+        List<BigInteger> counts = (List<BigInteger>) result.get("counts");
+
+        String title = (String) result.get("title");
+
+        return new VoteResultResponseDto(title, items, counts);
     }
 
 

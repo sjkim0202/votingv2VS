@@ -18,13 +18,15 @@ configurations {
         extendsFrom annotationProcessor
     }
 }
-
 dependencies {
     // 웹 애플리케이션 개발 기본 구성
     implementation 'org.springframework.boot:spring-boot-starter-web'           // Spring MVC
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'      // JPA
     implementation 'org.springframework.boot:spring-boot-starter-security'      // Spring Security
     implementation 'org.springframework.boot:spring-boot-starter-validation'    // @Valid 등 유효성 검사
+    implementation 'org.web3j:core:4.10.3'
+
+
 
     // JWT (토큰 인증)
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
@@ -39,6 +41,7 @@ dependencies {
     // 테스트 라이브러리
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     runtimeOnly 'com.mysql:mysql-connector-j'// JUnit 등 포함
+
 }
 
 tasks.named('test') {

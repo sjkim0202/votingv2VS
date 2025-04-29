@@ -2,6 +2,7 @@ package com.example.votingv2.controller;
 
 import com.example.votingv2.dto.VoteRequest;
 import com.example.votingv2.dto.VoteResponse;
+import com.example.votingv2.dto.VoteResultResponseDto;
 import com.example.votingv2.service.VoteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +40,12 @@ public class VoteController {
     @GetMapping("/{id}")
     public ResponseEntity<VoteResponse> getVote(@PathVariable Long id) {
         return ResponseEntity.ok(voteService.getVoteById(id));
+    }
+
+    // 블록체인 결과조회
+    @GetMapping("/{voteId}/results/blockchain")
+    public ResponseEntity<VoteResultResponseDto> getBlockchainResult(@PathVariable Long voteId) throws Exception {
+        return ResponseEntity.ok(voteService.getBlockchainResult(voteId));
     }
 
     // ✅ 사용자 투표 제출

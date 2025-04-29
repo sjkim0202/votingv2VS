@@ -117,6 +117,7 @@
   </div>
 
   <canvas id="voteChart" height="220"></canvas>
+  <canvas id="blockchainChart" height="220"></canvas>
 
   <button onclick="location.href='vote-list.html'">← 목록으로</button>
 </div>
@@ -127,96 +128,99 @@
   const token = localStorage.getItem("accessToken");
 
   const fallbackImage =
-          "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgODAgMTAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxyZWN0IHdpZHRoPSI4MCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiNlZWUiLz4KICA8dGV4dCB4PSI0MCIgeT0iNTAiIGZpbGw9IiM3Nzc3NzciIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTIiIGZvbnQtZmFtaWx5PSJBcmlhbCI+Tm8gSW1hZ2U8L3RleHQ+Cjwvc3ZnPg==";
+    "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgODAgMTAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxyZWN0IHdpZHRoPSI4MCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiNlZWUiLz4KICA8dGV4dCB4PSI0MCIgeT0iNTAiIGZpbGw9IiM3Nzc3NzciIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTIiIGZvbnQtZmFtaWx5PSJBcmlhbCI+Tm8gSW1hZ2U8L3RleHQ+Cjwvc3ZnPg==";
 
   fetch(`http://localhost:8080/api/votes/${voteId}`, {
     headers: {
       Authorization: "Bearer " + token,
     },
   })
-          .then((res) => res.json())
-          .then(async (vote) => {
-            document.getElementById("vote-title").innerText = vote.title;
+    .then((res) => res.json())
+    .then(async (vote) => {
+      document.getElementById("vote-title").innerText = vote.title;
 
-            const container = document.getElementById("candidate-list");
-            const labels = [];
-            const data = [];
-            const bgColors = [];
-            const colorPalette = [
-              "#4caf50", "#3f51b5", "#ff9800", "#e91e63", "#9c27b0", "#03a9f4", "#8bc34a", "#f44336"
-            ];
+      const container = document.getElementById("candidate-list");
+      const labels = [];
+      const data = [];
+      const bgColors = [];
+      const colorPalette = ["#4caf50", "#3f51b5", "#ff9800", "#e91e63", "#9c27b0", "#03a9f4", "#8bc34a", "#f44336"];
+      let totalVotes = 0;
+      const voteCounts = [];
 
-            let totalVotes = 0;
-            const voteCounts = [];
+      for (let i = 0; i < vote.items.length; i++) {
+        const item = vote.items[i];
+        const countRes = await fetch(`http://localhost:8080/api/votes/${voteId}/items/${item.itemId}/count`, {
+          headers: { Authorization: "Bearer " + token },
+        });
+        const count = parseInt(await countRes.text(), 10);
+        voteCounts.push({ item, count });
+        totalVotes += count;
+      }
 
-            for (let i = 0; i < vote.items.length; i++) {
-              const item = vote.items[i];
-              const countRes = await fetch(
-                      `http://localhost:8080/api/votes/${voteId}/items/${item.itemId}/count`,
-                      {
-                        headers: { Authorization: "Bearer " + token },
-                      }
-              );
-              const count = parseInt(await countRes.text(), 10);
-              voteCounts.push({ item, count });
-              totalVotes += count;
-            }
-
-            voteCounts.forEach(({ item, count }, i) => {
-              const percent = totalVotes ? Math.round((count / totalVotes) * 100) : 0;
-
-              const div = document.createElement("div");
-              div.className = "candidate";
-              div.innerHTML = `
+      voteCounts.forEach(({ item, count }, i) => {
+        const percent = totalVotes ? Math.round((count / totalVotes) * 100) : 0;
+        const div = document.createElement("div");
+        div.className = "candidate";
+        div.innerHTML = `
           <img src="${item.image || fallbackImage}" alt="이미지">
           <div><strong>${item.itemText}</strong></div>
           <div>${count}표 (${percent}%)</div>
         `;
-              container.appendChild(div);
+        container.appendChild(div);
 
-              labels.push(`${item.itemText} (${percent}%)`);
-              data.push(count);
-              bgColors.push(colorPalette[i % colorPalette.length]);
-            });
+        labels.push(`${item.itemText} (${percent}%)`);
+        data.push(count);
+        bgColors.push(colorPalette[i % colorPalette.length]);
+      });
 
-            // 중앙 텍스트 플러그인
-            const centerTextPlugin = {
-              id: 'centerText',
-              beforeDraw(chart) {
-                const { width } = chart;
-                const { ctx } = chart;
-                ctx.restore();
-                const fontSize = 14;
-                ctx.font = `bold ${fontSize}px Arial`;
-                ctx.textAlign = 'center';
-                ctx.fillStyle = '#333';
-                ctx.fillText(`총 ${totalVotes}표`, width / 2, chart._metasets[0].data[0].y);
-                ctx.save();
-              }
-            };
+      const ctx = document.getElementById("voteChart").getContext("2d");
+      new Chart(ctx, {
+        type: "doughnut",
+        data: {
+          labels,
+          datasets: [{
+            label: "득표 수 (DB)",
+            data,
+            backgroundColor: bgColors,
+            borderWidth: 1
+          }]
+        },
+        options: {
+          plugins: {
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }
+      });
 
-            const ctx = document.getElementById("voteChart").getContext("2d");
-            new Chart(ctx, {
-              type: "doughnut",
-              data: {
-                labels,
-                datasets: [{
-                  label: "득표 수",
-                  data,
-                  backgroundColor: bgColors,
-                  borderWidth: 1
-                }]
-              },
-              options: {
-                plugins: {
-                  legend: {
-                    position: 'bottom'
-                  }
-                }
-              },
-              plugins: [centerTextPlugin]
-            });
-          });
+      // 블록체인 차트 추가
+      const bcRes = await fetch(`http://localhost:8080/api/votes/${voteId}/results/blockchain`, {
+        headers: { Authorization: "Bearer " + token },
+      });
+      const bcResult = await bcRes.json();
+      const bcData = bcResult.counts.map(v => parseInt(v));
+      const bcCtx = document.getElementById("blockchainChart").getContext("2d");
+      new Chart(bcCtx, {
+        type: "doughnut",
+        data: {
+          labels: bcResult.items,
+          datasets: [{
+            label: "블록체인 득표 수",
+            data: bcData,
+            backgroundColor: bgColors.map(c => c.replace("4", "6").replace("3", "5")),
+            borderWidth: 1
+          }]
+        },
+        options: {
+          plugins: {
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }
+      });
+    });
 </script>
 </body>
 </html>

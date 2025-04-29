@@ -13,7 +13,8 @@ async function main() {
     // 배포 완료까지 기다리기
     await vote.waitForDeployment();
 
-    console.log(`✅ Vote 컨트랙트 배포 완료! 주소: ${vote.address}`);
+    const contractAddress = await vote.getAddress();
+    console.log("✅ Vote 컨트랙트 배포 완료! 주소:", contractAddress);
 
 
 }
