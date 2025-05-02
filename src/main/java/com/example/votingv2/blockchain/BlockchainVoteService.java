@@ -1,64 +1,87 @@
 package com.example.votingv2.blockchain;
 
+import com.example.votingv2.entity.User;
+import com.example.votingv2.entity.UserBlockchainKey;
+import com.example.votingv2.repository.UserBlockchainKeyRepository;
+import com.example.votingv2.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.web3j.crypto.Credentials;
-import org.web3j.protocol.Web3j;
-import org.web3j.protocol.http.HttpService;
-import org.web3j.tx.gas.DefaultGasProvider;
-import org.web3j.protocol.core.methods.response.TransactionReceipt;
+import org.web3j.abi.EventEncoder;
+import org.web3j.abi.FunctionReturnDecoder;
+import org.web3j.abi.TypeReference;
+import org.web3j.abi.datatypes.Event;
 import org.web3j.abi.datatypes.Type;
 import org.web3j.abi.datatypes.Utf8String;
 import org.web3j.abi.datatypes.generated.Uint256;
+import org.web3j.crypto.Credentials;
+import org.web3j.protocol.Web3j;
+import org.web3j.protocol.core.methods.response.Log;
+import org.web3j.protocol.core.methods.response.TransactionReceipt;
+import org.web3j.protocol.http.HttpService;
+import org.web3j.tx.gas.DefaultGasProvider;
 
 import java.math.BigInteger;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
+import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * BlockchainVoteService
- *
- * 이 서비스는 Vote 스마트컨트랙트와 통신하여
- * 투표 생성, 투표 제출, 결과 조회 기능을 제공합니다.
- */
 @Service
+@RequiredArgsConstructor
 public class BlockchainVoteService {
 
-    // 하드햇 로컬 노드 주소
     private final Web3j web3 = Web3j.build(new HttpService("http://127.0.0.1:8545"));
-
-    // 배포된 컨트랙트 주소 (반드시 수정)
     private final String contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 
-    // 하드햇 기본 계정 프라이빗 키 (반드시 수정)
-    private final String privateKey = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
+    private final UserRepository userRepository;
+    private final UserBlockchainKeyRepository userBlockchainKeyRepository;
 
-    // 컨트랙트 인스턴스 로드
-    private Vote loadContract() {
-        Credentials credentials = Credentials.create(privateKey);
+    /**
+     * ✅ 유저에 따라 Credentials를 불러와서 컨트랙트 로드
+     */
+    private Vote loadContract(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("사용자 없음"));
+
+        UserBlockchainKey key = userBlockchainKeyRepository.findByUserId(user.getId())
+                .orElseThrow(() -> new IllegalArgumentException("블록체인 키 없음"));
+
+        Credentials credentials = Credentials.create(key.getPrivateKey());
+
         return Vote.load(contractAddress, web3, credentials, new DefaultGasProvider());
     }
 
-    /**
-     * 블록체인에 투표 생성 요청
-     */
-    public TransactionReceipt createVote(String title, List<String> items) throws Exception {
-        return loadContract().createVote(title, items).send();
+    // ✅ 블록체인에 투표 생성
+    public BigInteger createVote(String username, String title, List<String> items) throws Exception {
+        try {
+            TransactionReceipt receipt = loadContract(username).createVote(title, items).send();
+
+            Event voteCreatedEvent = new Event("VoteCreated",
+                    Arrays.asList(
+                            new TypeReference<Uint256>(true) {},
+                            new TypeReference<Utf8String>() {}
+                    )
+            );
+
+            List<EventValuesWithLog> logs = extractEvent(receipt, voteCreatedEvent);
+
+            if (logs.isEmpty()) {
+                throw new IllegalStateException("VoteCreated 이벤트를 찾을 수 없습니다.");
+            }
+
+            return (BigInteger) logs.get(0).getIndexedValues().get(0).getValue();
+        } catch (Exception e) {
+            throw new RuntimeException("createVote 실패", e);
+        }
     }
 
-    /**
-     * 특정 항목에 투표
-     */
-    public TransactionReceipt submitVote(BigInteger voteId, BigInteger itemIndex) throws Exception {
-        return loadContract().submitVote(voteId, itemIndex).send();
+    // ✅ 특정 항목에 투표
+    public TransactionReceipt submitVote(String username, BigInteger voteId, BigInteger itemIndex) throws Exception {
+        return loadContract(username).submitVote(voteId, itemIndex).send();
     }
 
-    /**
-     * 투표 결과 조회 (제목, 항목 리스트, 득표 수)
-     */
+    // ✅ 투표 결과 조회
     public Map<String, Object> getVoteResult(BigInteger voteId) throws Exception {
-        List<Type> result = loadContract().getVoteResult(voteId).send();
+        List<Type> result = loadContract("admin1").getVoteResult(voteId).send();
+        // 🔥 getVoteResult는 그냥 admin 계정으로 호출 (데이터 조회만 할 때는 signer 신경 덜 써도 됨)
 
         String title = ((Utf8String) result.get(0)).getValue();
         List<Utf8String> items = (List<Utf8String>) result.get(1).getValue();
@@ -67,7 +90,56 @@ public class BlockchainVoteService {
         Map<String, Object> response = new HashMap<>();
         response.put("title", title);
         response.put("items", items.stream().map(Utf8String::getValue).collect(Collectors.toList()));
-        response.put("count s", counts.stream().map(Uint256::getValue).collect(Collectors.toList()));
+        response.put("counts", counts.stream().map(Uint256::getValue).collect(Collectors.toList()));
         return response;
+    }
+
+    // ✅ 이벤트 추출 유틸
+    private List<EventValuesWithLog> extractEvent(TransactionReceipt receipt, Event event) {
+        String encodedEventSignature = EventEncoder.encode(event);
+        List<EventValuesWithLog> results = new ArrayList<>();
+
+        for (Log log : receipt.getLogs()) {
+            if (log.getTopics().isEmpty() || !log.getTopics().get(0).equals(encodedEventSignature)) continue;
+
+            List<Type> indexedValues = new ArrayList<>();
+            for (int i = 0; i < event.getIndexedParameters().size(); i++) {
+                Type value = FunctionReturnDecoder.decodeIndexedValue(
+                        log.getTopics().get(i + 1), event.getIndexedParameters().get(i));
+                indexedValues.add(value);
+            }
+
+            @SuppressWarnings("unchecked")
+            List<TypeReference<Type>> castedReferences = (List<TypeReference<Type>>) (List<?>) event.getNonIndexedParameters();
+            List<Type> nonIndexedValues = FunctionReturnDecoder.decode(log.getData(), castedReferences);
+
+            results.add(new EventValuesWithLog(indexedValues, nonIndexedValues, log));
+        }
+
+        return results;
+    }
+
+    public static class EventValuesWithLog {
+        private final List<Type> indexedValues;
+        private final List<Type> nonIndexedValues;
+        private final Log log;
+
+        public EventValuesWithLog(List<Type> indexedValues, List<Type> nonIndexedValues, Log log) {
+            this.indexedValues = indexedValues;
+            this.nonIndexedValues = nonIndexedValues;
+            this.log = log;
+        }
+
+        public List<Type> getIndexedValues() {
+            return indexedValues;
+        }
+
+        public List<Type> getNonIndexedValues() {
+            return nonIndexedValues;
+        }
+
+        public Log getLog() {
+            return log;
+        }
     }
 }

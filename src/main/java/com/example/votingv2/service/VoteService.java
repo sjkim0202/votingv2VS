@@ -9,11 +9,14 @@ import com.example.votingv2.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -32,21 +35,43 @@ public class VoteService {
     /**
      * 투표 생성 처리
      */
+    @Transactional
     public VoteResponse createVote(VoteRequest request) {
-        User admin = userRepository.findByUsername("admin1")
-                .orElseThrow(() -> new IllegalArgumentException("관리자 계정이 존재하지 않습니다."));
+        // 현재 로그인한 사용자 가져오기
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = authentication.getName();
+
+        User user = userRepository.findByUsername(currentUsername)
+                .orElseThrow(() -> new IllegalArgumentException("로그인한 유저가 존재하지 않습니다."));
 
         Vote vote = Vote.builder()
                 .title(request.getTitle())
                 .description(request.getDescription())
                 .deadline(request.getDeadline())
-                .createdBy(admin)
+                .createdBy(user)
                 .isPublic(false)
                 .isDeleted(false)
                 .createdAt(LocalDateTime.now())
-                .startTime(request.getStartTime())  // 추가
+                .startTime(request.getStartTime())
                 .build();
 
+        try {
+            // ✅ 블록체인에 먼저 투표 생성 요청
+            List<String> itemTexts = request.getItems().stream()
+                    .map(VoteRequest.VoteItemRequest::getItemText)
+                    .toList();
+
+            BigInteger blockchainVoteId = blockchainVoteService.createVote(currentUsername, request.getTitle(), itemTexts);
+
+            // ✅ 블록체인 voteId 저장
+            vote.setBlockchainVoteId(blockchainVoteId);
+        } catch (Exception e) {
+            System.err.println("⚠️ 블록체인 투표 생성 실패: " + e.getMessage());
+            throw new RuntimeException("블록체인에 투표 생성 실패", e);
+            // ❗ 실패하면 DB 저장하지 않고 롤백되게 한다.
+        }
+
+        // ✅ 블록체인에 성공했으면 DB 저장
         Vote savedVote = voteRepository.save(vote);
 
         if (request.getItems() != null) {
@@ -63,22 +88,13 @@ public class VoteService {
                     .toList();
             voteItemRepository.saveAll(items);
         }
-        // ✅ 블록체인에도 투표 생성
-        try {
-            List<String> itemTexts = request.getItems().stream()
-                    .map(VoteRequest.VoteItemRequest::getItemText)
-                    .toList();
-            blockchainVoteService.createVote(request.getTitle(), itemTexts);
-        } catch (Exception e) {
-            System.err.println("⚠️ 블록체인 투표 생성 실패: " + e.getMessage());
-        }
 
         return toResponse(savedVote);
     }
-
     /**
      * 사용자 투표 제출 처리
      */
+    @Transactional
     public void submitVote(Long voteId, VoteRequest request, String username) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("사용자 없음"));
@@ -89,8 +105,15 @@ public class VoteService {
         VoteItem selectedItem = voteItemRepository.findById(request.getSelectedItemId())
                 .orElseThrow(() -> new IllegalArgumentException("선택한 항목 없음"));
 
-        // 중복 투표 방지
-        if (voteResultRepository.findByUserIdAndVoteId(user.getId(), voteId).isPresent()) {
+        // ✅ 디버깅 추가
+        System.out.println("==== submitVote 디버깅 ====");
+        System.out.println("요청자 userId: " + user.getId());
+        System.out.println("요청된 voteId (DB ID): " + voteId);
+
+        Optional<VoteResult> existingVote = voteResultRepository.findByUserIdAndVoteId(user.getId(), voteId);
+        System.out.println("기존 투표 존재 여부: " + existingVote.isPresent());
+
+        if (existingVote.isPresent()) {
             throw new IllegalStateException("이미 투표하셨습니다.");
         }
 
@@ -102,12 +125,11 @@ public class VoteService {
                 .build();
 
         voteResultRepository.save(result);
-        // ✅ 블록체인에도 투표 기록
+
+        // ✅ 블록체인에도 투표 제출
         try {
-            // 1. 해당 투표에 속한 항목들 순서대로 가져오기
             List<VoteItem> items = voteItemRepository.findByVoteIdOrderByIdAsc(voteId);
 
-            // 2. 선택된 항목의 인덱스 계산
             int itemIndex = -1;
             for (int i = 0; i < items.size(); i++) {
                 if (items.get(i).getId().equals(selectedItem.getId())) {
@@ -116,22 +138,19 @@ public class VoteService {
                 }
             }
 
-            System.out.println("🧾 itemIndex: " + itemIndex);
-            System.out.println("🧾 items.size(): " + items.size());
-
             if (itemIndex == -1) {
                 throw new IllegalStateException("항목 인덱스를 찾을 수 없습니다.");
             }
 
-            // 3. 블록체인 submit 호출
-            blockchainVoteService.submitVote(
-                    BigInteger.valueOf(voteId),
-                    BigInteger.valueOf(itemIndex)
-            );
+            // 🔥 여기서는 blockchainVoteId를 써야 한다
+            blockchainVoteService.submitVote(username, vote.getBlockchainVoteId(), BigInteger.valueOf(itemIndex));
+
         } catch (Exception e) {
             System.err.println("⚠️ 블록체인 투표 제출 실패: " + e.getMessage());
         }
     }
+
+
 
     /**
      * 투표 단건 조회 (항목 포함)
@@ -256,20 +275,32 @@ public class VoteService {
     }
 
 
-    @Transactional //블록체인 결과조회
-    public VoteResultResponseDto getBlockchainResult(Long voteId) throws Exception {
-        Map<String, Object> result = blockchainVoteService.getVoteResult(BigInteger.valueOf(voteId));
+    public Map<String, Object> getBlockchainVoteResult(Long voteId) throws Exception {
+        Vote vote = voteRepository.findById(voteId)
+                .orElseThrow(() -> new IllegalArgumentException("투표 없음"));
 
-        @SuppressWarnings("unchecked")
-        List<String> items = (List<String>) result.get("items");
+        if (vote.getBlockchainVoteId() == null) {
+            throw new IllegalStateException("해당 투표는 블록체인에 생성되지 않았습니다.");
+        }
 
-        @SuppressWarnings("unchecked")
-        List<BigInteger> counts = (List<BigInteger>) result.get("counts");
-
-        String title = (String) result.get("title");
-
-        return new VoteResultResponseDto(title, items, counts);
+        return blockchainVoteService.getVoteResult(vote.getBlockchainVoteId());
     }
 
 
+
+    @Service
+    @RequiredArgsConstructor
+    public class UserBlockchainKeyService {
+
+        private final UserBlockchainKeyRepository userBlockchainKeyRepository;
+
+        @Transactional
+        public void assignBlockchainKeyToUser(Long userId) {
+            UserBlockchainKey key = userBlockchainKeyRepository.findFirstByUserIdIsNull()
+                    .orElseThrow(() -> new IllegalStateException("남은 블록체인 키가 없습니다."));
+
+            key.setUserId(userId);
+            userBlockchainKeyRepository.save(key);
+        }
+    }
 }

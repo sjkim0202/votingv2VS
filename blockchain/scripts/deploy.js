@@ -26,7 +26,7 @@ main().catch((error) => {
 });
 /*
 0. 노드 실행
-    npx hardhat node
+npx hardhat node
 
 0.5 배포
 npx hardhat run scripts/deploy.js --network localhost
@@ -36,7 +36,7 @@ npx hardhat run scripts/deploy.js --network localhost
 
 2. Vote 스마트컨트랙트 연결 (배포된 주소로 붙이기)
 const Vote = await ethers.getContractFactory("Vote");
-const vote = await Vote.attach("0x5fbdb2315678afecb367f032d93f642f64180aa3");
+const vote = await Vote.attach("0x5FbDB2315678afecb367f032d93F642f64180aa3");
 
 예: const vote = await Vote.attach("0x5fbdb2315678afecb367f032d93f642f64180aa3");
 
@@ -63,3 +63,9 @@ console.log(result2);
 //   [ 'Java', 'Python', 'Solidity' ],
 //   [ BigNumber { value: "1" }, BigNumber { value: "0" }, BigNumber { value: "1" } ]
 // ]*/
+
+
+// 하드햇 죽이기
+// netstat -ano | findstr :8545
+// taskkill /PID <PID번호> /F
+// taskkill /PID 18628 /F

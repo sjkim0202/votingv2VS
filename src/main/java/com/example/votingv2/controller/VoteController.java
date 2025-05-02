@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 투표 API 컨트롤러
@@ -44,9 +45,10 @@ public class VoteController {
 
     // 블록체인 결과조회
     @GetMapping("/{voteId}/results/blockchain")
-    public ResponseEntity<VoteResultResponseDto> getBlockchainResult(@PathVariable Long voteId) throws Exception {
-        return ResponseEntity.ok(voteService.getBlockchainResult(voteId));
+    public ResponseEntity<Map<String, Object>> getBlockchainResult(@PathVariable Long voteId) throws Exception {
+        return ResponseEntity.ok(voteService.getBlockchainVoteResult(voteId));
     }
+
 
     // ✅ 사용자 투표 제출
     @PostMapping("/{id}/vote")
@@ -62,7 +64,7 @@ public class VoteController {
 
     // 삭제된 투표 목록 조회
     @GetMapping("/deleted")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'DEVELOP')")
     public List<VoteResponse> getDeletedVotes() {
         return voteService.getDeletedVotes();
     }
@@ -74,7 +76,7 @@ public class VoteController {
     }
 
     @DeleteMapping("/{id}/force")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'DEVELOP')")
     public ResponseEntity<Void> hardDelete(@PathVariable Long id) {
         voteService.hardDeleteVote(id);
         return ResponseEntity.ok().build();

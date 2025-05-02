@@ -1,3 +1,4 @@
+
 // 로그인 폼이 제출되었을 때 실행되는 함수 등록
 document.getElementById('login-form').addEventListener('submit', async (e) => {
     e.preventDefault(); // 기본 폼 제출 동작(새로고침)을 막음

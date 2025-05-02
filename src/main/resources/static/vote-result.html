@@ -3,104 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <title>투표 결과</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="css/vote-result.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
-    body {
-      font-family: "Noto Sans KR", sans-serif;
-      background-color: #b0c7e6;
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      min-height: 100vh;
-      padding: 40px 20px;
-    }
-
-    .container {
-      background-color: #fff;
-      padding: 40px 30px;
-      border-radius: 15px;
-      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
-      width: 100%;
-      max-width: 720px;
-      box-sizing: border-box;
-    }
-
-    h2 {
-      text-align: center;
-      margin-bottom: 30px;
-      font-weight: 700;
-      color: #111;
-    }
-
-    .info-group {
-      margin-bottom: 25px;
-    }
-
-    .label {
-      font-weight: 600;
-      font-size: 15px;
-      margin-bottom: 6px;
-      color: #333;
-    }
-
-    .value {
-      font-size: 16px;
-      color: #111;
-    }
-
-    .candidate-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
-      margin-top: 20px;
-      justify-content: center;
-    }
-
-    .candidate {
-      background-color: #e0e9f5;
-      border-radius: 12px;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 140px;
-      text-align: center;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    }
-
-    .candidate img {
-      width: 80px;
-      height: 100px;
-      object-fit: cover;
-      border-radius: 8px;
-      background-color: #ccc;
-      margin-bottom: 10px;
-    }
-
-    canvas {
-      display: block;
-      max-width: 300px;
-      margin: 30px auto 0;
-    }
-
-    button {
-      width: 100%;
-      margin-top: 40px;
-      padding: 12px;
-      font-size: 16px;
-      background-color: #2a8c55;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    button:hover {
-      background-color: #246c44;
-    }
-  </style>
 </head>
 <body>
 <div class="container">
@@ -116,111 +21,22 @@
     <div class="candidate-list" id="candidate-list"></div>
   </div>
 
-  <canvas id="voteChart" height="220"></canvas>
-  <canvas id="blockchainChart" height="220"></canvas>
+  <div class="charts">
+    <div class="chart-container">
+      <h3>DB 기준 투표 결과</h3>
+      <canvas id="voteChart"></canvas>
+      <div id="db-empty" style="margin-top: 10px; color: #666;"></div>
+    </div>
+    <div class="chart-container">
+      <h3>블록체인 투표 결과</h3>
+      <canvas id="blockchainChart"></canvas>
+      <div id="blockchain-empty" style="margin-top: 10px; color: #666;"></div>
+    </div>
+  </div>
 
   <button onclick="location.href='vote-list.html'">← 목록으로</button>
 </div>
 
-<script>
-  const params = new URLSearchParams(location.search);
-  const voteId = params.get("id");
-  const token = localStorage.getItem("accessToken");
-
-  const fallbackImage =
-    "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgODAgMTAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxyZWN0IHdpZHRoPSI4MCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiNlZWUiLz4KICA8dGV4dCB4PSI0MCIgeT0iNTAiIGZpbGw9IiM3Nzc3NzciIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTIiIGZvbnQtZmFtaWx5PSJBcmlhbCI+Tm8gSW1hZ2U8L3RleHQ+Cjwvc3ZnPg==";
-
-  fetch(`http://localhost:8080/api/votes/${voteId}`, {
-    headers: {
-      Authorization: "Bearer " + token,
-    },
-  })
-    .then((res) => res.json())
-    .then(async (vote) => {
-      document.getElementById("vote-title").innerText = vote.title;
-
-      const container = document.getElementById("candidate-list");
-      const labels = [];
-      const data = [];
-      const bgColors = [];
-      const colorPalette = ["#4caf50", "#3f51b5", "#ff9800", "#e91e63", "#9c27b0", "#03a9f4", "#8bc34a", "#f44336"];
-      let totalVotes = 0;
-      const voteCounts = [];
-
-      for (let i = 0; i < vote.items.length; i++) {
-        const item = vote.items[i];
-        const countRes = await fetch(`http://localhost:8080/api/votes/${voteId}/items/${item.itemId}/count`, {
-          headers: { Authorization: "Bearer " + token },
-        });
-        const count = parseInt(await countRes.text(), 10);
-        voteCounts.push({ item, count });
-        totalVotes += count;
-      }
-
-      voteCounts.forEach(({ item, count }, i) => {
-        const percent = totalVotes ? Math.round((count / totalVotes) * 100) : 0;
-        const div = document.createElement("div");
-        div.className = "candidate";
-        div.innerHTML = `
-          <img src="${item.image || fallbackImage}" alt="이미지">
-          <div><strong>${item.itemText}</strong></div>
-          <div>${count}표 (${percent}%)</div>
-        `;
-        container.appendChild(div);
-
-        labels.push(`${item.itemText} (${percent}%)`);
-        data.push(count);
-        bgColors.push(colorPalette[i % colorPalette.length]);
-      });
-
-      const ctx = document.getElementById("voteChart").getContext("2d");
-      new Chart(ctx, {
-        type: "doughnut",
-        data: {
-          labels,
-          datasets: [{
-            label: "득표 수 (DB)",
-            data,
-            backgroundColor: bgColors,
-            borderWidth: 1
-          }]
-        },
-        options: {
-          plugins: {
-            legend: {
-              position: 'bottom'
-            }
-          }
-        }
-      });
-
-      // 블록체인 차트 추가
-      const bcRes = await fetch(`http://localhost:8080/api/votes/${voteId}/results/blockchain`, {
-        headers: { Authorization: "Bearer " + token },
-      });
-      const bcResult = await bcRes.json();
-      const bcData = bcResult.counts.map(v => parseInt(v));
-      const bcCtx = document.getElementById("blockchainChart").getContext("2d");
-      new Chart(bcCtx, {
-        type: "doughnut",
-        data: {
-          labels: bcResult.items,
-          datasets: [{
-            label: "블록체인 득표 수",
-            data: bcData,
-            backgroundColor: bgColors.map(c => c.replace("4", "6").replace("3", "5")),
-            borderWidth: 1
-          }]
-        },
-        options: {
-          plugins: {
-            legend: {
-              position: 'bottom'
-            }
-          }
-        }
-      });
-    });
-</script>
+<script src="js/vote-result.js"></script>
 </body>
 </html>

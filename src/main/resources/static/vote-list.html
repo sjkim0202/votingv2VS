@@ -3,149 +3,8 @@
 <head>
     <meta charset="UTF-8" />
     <title>투표 목록</title>
-    <style>
-        body {
-            font-family: "Noto Sans KR", sans-serif;
-            background-color: #b0c7e6;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 40px 20px;
-        }
-
-        .container {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
-            max-width: 1000px;
-            width: 100%;
-            box-sizing: border-box;
-            position: relative;
-        }
-
-        .logout-btn {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            background-color: #f97b7b;
-            color: white;
-            border: none;
-            padding: 10px 16px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            z-index: 10;
-            transition: background-color 0.3s ease;
-        }
-
-        .logout-btn:hover {
-            background-color: #e15c5c;
-        }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 25px;
-            font-weight: 700;
-            color: #111;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            table-layout: fixed;
-            margin-bottom: 25px;
-        }
-
-        th {
-            background-color: #e0e7ff;
-            font-weight: 600;
-        }
-
-        th, td {
-            border: 1px solid #999;
-            padding: 12px;
-            font-size: 15px;
-            text-align: center;
-            word-wrap: break-word;
-        }
-
-        td {
-            height: 64px;
-        }
-
-        .action-btn {
-            padding: 6px 10px;
-            font-size: 13px;
-            font-weight: 500;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            margin: 2px;
-            min-width: 90px; /* ✅ 버튼 크기 통일용 최소 너비 */
-            text-align: center;
-        }
-
-        .result-btn {
-            background-color: #1f3fae;
-            color: white;
-        }
-
-        .delete-btn {
-            background-color: #ef3a3a;
-            color: white;
-        }
-
-        .vote-btn {
-            background-color: #2a8c55;
-            color: white;
-        }
-
-        .vote-btn:hover {
-            background-color: #246c44;
-        }
-
-        .toggle-public {
-            background-color: #d4d4d4;
-            color: #333;
-        }
-
-        .toggle-private {
-            background-color: #2a8c55;
-            color: white;
-        }
-
-        .create-btn {
-            background-color: #a8d5ba;
-            color: white;
-            font-size: 16px;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .create-btn:hover {
-            background-color: #246c44;
-        }
-
-        .section-title {
-            font-weight: 600;
-            font-size: 16px;
-            margin: 60px 0 10px;
-            color: #222;
-        }
-
-        .button-row {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 20px;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/vote-list.css" />
 </head>
 <body>
 <div class="container">
@@ -153,6 +12,7 @@
 
     <h2>투표 목록</h2>
 
+    <div class="section-title">진행중인 투표</div>
     <table id="voteTable">
         <thead>
         <tr>
@@ -167,6 +27,8 @@
         </thead>
         <tbody></tbody>
     </table>
+
+    <div class="card-list" id="voteCards"></div>
 
     <div class="section-title">마감된 투표</div>
     <table id="endedVoteTable">
@@ -184,185 +46,14 @@
         <tbody></tbody>
     </table>
 
+    <div class="card-list" id="endedVoteCards"></div>
+
     <div class="button-row">
         <button class="create-btn admin-only" onclick="location.href='create-vote.html'">+ 새 투표 생성</button>
         <button class="create-btn admin-only" onclick="location.href='trash-vote-list.html'">🗑️휴지통</button>
     </div>
 </div>
 
-<script>
-    const accessToken = localStorage.getItem("accessToken");
-    const role = localStorage.getItem("role");
-
-    function logout() {
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("role");
-        alert("로그아웃 되었습니다.");
-        window.location.href = "index.html";
-    }
-
-    function loadVotes() {
-        fetch("http://localhost:8080/api/votes", {
-            method: "GET",
-            headers: {
-                "Authorization": "Bearer " + accessToken
-            }
-        })
-            .then(response => response.json())
-            .then(data => {
-                const tbody = document.querySelector("#voteTable tbody");
-                const endedBody = document.querySelector("#endedVoteTable tbody");
-                tbody.innerHTML = "";
-                endedBody.innerHTML = "";
-
-                data.sort((a, b) => (a.public === b.public ? 0 : a.public ? 1 : -1));
-
-                if (role !== "ADMIN") {
-                    data = data.filter(vote => vote.public);
-                }
-
-                data.forEach(vote => {
-                    const now = new Date();
-                    const start = new Date(vote.startTime);
-                    const isStarted = now >= start;
-
-                    if (vote.closed) {
-                        renderClosedVote(vote);
-                    } else {
-                        renderOpenVote(vote, isStarted);
-                    }
-                });
-
-                if (role !== "ADMIN") {
-                    document.querySelectorAll(".admin-only").forEach(el => el.style.display = "none");
-                }
-            })
-            .catch(error => {
-                console.error("오류:", error);
-                alert("투표 목록을 불러오지 못했습니다.");
-            });
-    }
-
-    function renderOpenVote(vote, isStarted) {
-        const tbody = document.querySelector("#voteTable tbody");
-        const toggleClass = vote.public ? "toggle-public" : "toggle-private";
-        const toggleLabel = vote.public ? "비공개로 전환" : "공개로 전환";
-
-        const row = document.createElement("tr");
-        const titleCell = role === "ADMIN"
-            ? `<a href="vote-detail.html?id=${vote.id}">${vote.title}</a>`
-            : `<span>${vote.title}</span>`;
-
-        let controlButtons = "";
-        if (role === "ADMIN") {
-            controlButtons = `
-                <button class="action-btn ${toggleClass}" onclick="togglePublic(${vote.id}, this)">${toggleLabel}</button>
-                <button class="action-btn delete-btn" onclick="moveToTrash(${vote.id})">휴지통</button>
-            `;
-        } else {
-            controlButtons = `
-                <button class="action-btn vote-btn" onclick="${isStarted ? `location.href='vote-detail.html?id=${vote.id}'` : `alert('투표 시작 전 입니다.')`}">투표하기</button>
-            `;
-        }
-
-        row.innerHTML = `
-            <td>${vote.id}</td>
-            <td>${titleCell}</td>
-            <td>${vote.description}</td>
-            <td>${vote.startTime.replace("T", " ").substring(0, 16)}</td>
-            <td>${vote.deadline.replace("T", " ").substring(0, 16)}</td>
-            <td>${vote.closed ? "마감" : isStarted ? "진행 중" : "시작 전"}</td>
-            <td>${controlButtons}</td>
-        `;
-
-        tbody.appendChild(row);
-    }
-
-    function renderClosedVote(vote) {
-        const endedBody = document.querySelector("#endedVoteTable tbody");
-        const toggleClass = vote.public ? "toggle-public" : "toggle-private";
-        const toggleLabel = vote.public ? "비공개로 전환" : "공개로 전환";
-
-        const row = document.createElement("tr");
-
-        let controlButtons = "";
-        if (role === "ADMIN") {
-            controlButtons = `
-                <button class="action-btn ${toggleClass}" onclick="togglePublic(${vote.id}, this)">${toggleLabel}</button>
-                <button class="action-btn result-btn" onclick="location.href='vote-result.html?id=${vote.id}'">결과 보기</button>
-                <button class="action-btn delete-btn" onclick="moveToTrash(${vote.id})">휴지통</button>
-            `;
-        } else {
-            controlButtons = `
-                <button class="action-btn result-btn" onclick="location.href='vote-result.html?id=${vote.id}'">결과 보기</button>
-            `;
-        }
-
-        row.innerHTML = `
-            <td>${vote.id}</td>
-            <td>${vote.title}</td>
-            <td>${vote.description || '설명이 없습니다.'}</td>
-            <td>${vote.startTime.replace("T", " ").substring(0, 16)}</td>
-            <td>${vote.deadline.replace("T", " ").substring(0, 16)}</td>
-            <td>마감</td>
-            <td>${controlButtons}</td>
-        `;
-
-        endedBody.appendChild(row);
-    }
-
-    function togglePublic(voteId, btn) {
-        fetch(`http://localhost:8080/api/votes/${voteId}/toggle-public`, {
-            method: "PATCH",
-            headers: {
-                "Authorization": "Bearer " + accessToken
-            }
-        })
-            .then(res => {
-                if (!res.ok) throw new Error("전환 실패");
-                return res.text();
-            })
-            .then(() => {
-                const isCurrentlyPublic = btn.classList.contains("toggle-public");
-
-                if (isCurrentlyPublic) {
-                    // 비공개 → 공개
-                    btn.innerText = "공개로 전환";
-                    btn.classList.remove("toggle-public");
-                    btn.classList.add("toggle-private");
-                } else {
-                    // 공개 → 비공개
-                    btn.innerText = "비공개로 전환";
-                    btn.classList.remove("toggle-private");
-                    btn.classList.add("toggle-public");
-                }
-            })
-            .catch(err => {
-                alert("⚠️ 공개 상태 전환 실패: " + err.message);
-            });
-    }
-
-    function moveToTrash(voteId) {
-        if (!confirm("이 투표를 휴지통으로 이동하시겠습니까?")) return;
-
-        fetch(`http://localhost:8080/api/votes/${voteId}/trash`, {
-            method: "PATCH",
-            headers: {
-                "Authorization": "Bearer " + accessToken
-            }
-        })
-            .then(res => {
-                if (!res.ok) throw new Error("이동 실패");
-                alert("휴지통으로 이동되었습니다.");
-                loadVotes();
-            })
-            .catch(err => {
-                alert("⚠️ 이동 실패: " + err.message);
-            });
-    }
-
-    loadVotes();
-</script>
-
+<script src="js/vote-list.js"></script>
 </body>
 </html>

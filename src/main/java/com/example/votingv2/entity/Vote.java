@@ -3,6 +3,7 @@ package com.example.votingv2.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 
 /**
@@ -44,6 +45,10 @@ public class Vote {
 
     @Column(nullable = false, name = "is_deleted")
     private boolean isDeleted;
+
+    @Column(name = "blockchain_vote_id")
+    private BigInteger blockchainVoteId;
+
 
 
 }

@@ -65,7 +65,7 @@ contract Vote {
 
         emit VoteCreated(nextVoteId, _title);   // 🔔 이벤트 로그 발생
 
-        nextVoteId++;  // 다음 투표 ID로 증가
+        nextVoteId++;
     }
 
     // ✅ 투표 제출 함수
@@ -80,9 +80,8 @@ contract Vote {
         v.items[_itemIndex].voteCount++;         // 선택한 항목의 득표 수 증가
         v.hasVoted[msg.sender] = true;           // 이 주소는 이미 투표함
 
-        emit VoteSubmitted(_voteId, _itemIndex, msg.sender); // 🔔 이벤트 발생
+        emit VoteSubmitted(_voteId, _itemIndex, msg.sender);
     }
-
     // ✅ 투표 결과 확인 함수
     // return: 제목, 항목 이름 배열, 득표 수 배열
     function getVoteResult(uint _voteId) public view returns (
@@ -102,4 +101,3 @@ contract Vote {
         }
     }
 }
-
