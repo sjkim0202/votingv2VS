@@ -1,0 +1,120 @@
+body {
+    font-family: "Noto Sans KR", sans-serif;
+    background-color: #b0c7e6;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 40px 20px;
+}
+
+.container {
+    background-color: #fff;
+    padding: 40px 30px;
+    border-radius: 15px;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 960px;
+    box-sizing: border-box;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: 700;
+    color: #111;
+}
+
+h3 {
+    text-align: center;
+    margin-top: 20px;
+    font-weight: 600;
+    color: #222;
+}
+
+.info-group {
+    margin-bottom: 25px;
+}
+
+.label {
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 6px;
+    color: #333;
+}
+
+.value {
+    font-size: 16px;
+    color: #111;
+}
+
+.candidate-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 20px;
+    justify-content: center;
+}
+
+.candidate {
+    background-color: #e0e9f5;
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 140px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.charts {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+
+.chart-container {
+    text-align: center;
+    width: 300px;
+}
+
+canvas {
+    display: block;
+    width: 100% !important;
+    height: auto !important;
+    max-width: 80%;
+    margin: 30px auto 0;
+}
+
+.empty-message {
+    margin-top: 10px;
+    color: #666;
+}
+
+button {
+    width: 100%;
+    margin-top: 40px;
+    padding: 12px;
+    font-size: 16px;
+    background-color: cornflowerblue;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: dodgerblue;
+}
+
+@media (max-width: 600px) {
+    .candidate {
+        width: 100%;
+        max-width: 280px;
+    }
+}
