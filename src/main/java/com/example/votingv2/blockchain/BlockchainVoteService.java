@@ -28,8 +28,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class BlockchainVoteService {
 
-    private final Web3j web3 = Web3j.build(new HttpService("http://127.0.0.1:8545"));
-    private final String contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+    private final Web3j web3 = Web3j.build(new HttpService("http://127.0.0.1:7545"));
+    private final String contractAddress = "0xabBdD9FD00047464741b5aEe8e5322A71F8b6EAd";
 
     private final UserRepository userRepository;
     private final UserBlockchainKeyRepository userBlockchainKeyRepository;
@@ -79,9 +79,8 @@ public class BlockchainVoteService {
     }
 
     // ✅ 투표 결과 조회
-    public Map<String, Object> getVoteResult(BigInteger voteId) throws Exception {
-        List<Type> result = loadContract("admin1").getVoteResult(voteId).send();
-        // 🔥 getVoteResult는 그냥 admin 계정으로 호출 (데이터 조회만 할 때는 signer 신경 덜 써도 됨)
+    public Map<String, Object> getVoteResult(String username, BigInteger voteId) throws Exception {
+        List<Type> result = loadContract(username).getVoteResult(voteId).send();
 
         String title = ((Utf8String) result.get(0)).getValue();
         List<Utf8String> items = (List<Utf8String>) result.get(1).getValue();
@@ -91,6 +90,7 @@ public class BlockchainVoteService {
         response.put("title", title);
         response.put("items", items.stream().map(Utf8String::getValue).collect(Collectors.toList()));
         response.put("counts", counts.stream().map(Uint256::getValue).collect(Collectors.toList()));
+
         return response;
     }
 

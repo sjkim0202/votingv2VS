@@ -45,8 +45,10 @@ public class VoteController {
 
     // 블록체인 결과조회
     @GetMapping("/{voteId}/results/blockchain")
-    public ResponseEntity<Map<String, Object>> getBlockchainResult(@PathVariable Long voteId) throws Exception {
-        return ResponseEntity.ok(voteService.getBlockchainVoteResult(voteId));
+    public ResponseEntity<Map<String, Object>> getBlockchainResult(@PathVariable Long voteId,
+                                                                   @AuthenticationPrincipal UserDetails userDetails) throws Exception {
+        String username = userDetails.getUsername();
+        return ResponseEntity.ok(voteService.getBlockchainVoteResult(username, voteId));
     }
 
 

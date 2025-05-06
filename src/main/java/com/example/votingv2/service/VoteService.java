@@ -275,7 +275,7 @@ public class VoteService {
     }
 
 
-    public Map<String, Object> getBlockchainVoteResult(Long voteId) throws Exception {
+    public Map<String, Object> getBlockchainVoteResult(String username, Long voteId) throws Exception {
         Vote vote = voteRepository.findById(voteId)
                 .orElseThrow(() -> new IllegalArgumentException("투표 없음"));
 
@@ -283,24 +283,9 @@ public class VoteService {
             throw new IllegalStateException("해당 투표는 블록체인에 생성되지 않았습니다.");
         }
 
-        return blockchainVoteService.getVoteResult(vote.getBlockchainVoteId());
+        return blockchainVoteService.getVoteResult(username, vote.getBlockchainVoteId());
     }
 
 
 
-    @Service
-    @RequiredArgsConstructor
-    public class UserBlockchainKeyService {
-
-        private final UserBlockchainKeyRepository userBlockchainKeyRepository;
-
-        @Transactional
-        public void assignBlockchainKeyToUser(Long userId) {
-            UserBlockchainKey key = userBlockchainKeyRepository.findFirstByUserIdIsNull()
-                    .orElseThrow(() -> new IllegalStateException("남은 블록체인 키가 없습니다."));
-
-            key.setUserId(userId);
-            userBlockchainKeyRepository.save(key);
-        }
-    }
 }
