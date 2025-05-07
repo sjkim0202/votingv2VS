@@ -87,11 +87,14 @@ public class VoteService {
                             .itemText(itemReq.getItemText())
                             .description(itemReq.getDescription())
                             .promise(itemReq.getPromise())
-                            .image(itemReq.getImage() != null && !itemReq.getImage().startsWith("data:")
-                                    ? "data:image/png;base64," + itemReq.getImage()
-                                    : itemReq.getImage())
+                            .image(itemReq.getImage() == null
+                                    ? null
+                                    : (itemReq.getImage().startsWith("data:")
+                                    ? itemReq.getImage()
+                                    : "data:image/png;base64," + itemReq.getImage()))
                             .build())
                     .toList();
+
             voteItemRepository.saveAll(items);
         }
 
