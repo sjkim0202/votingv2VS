@@ -44,6 +44,7 @@ public class BlockchainVoteService {
         UserBlockchainKey key = userBlockchainKeyRepository.findByUserId(user.getId())
                 .orElseThrow(() -> new IllegalArgumentException("블록체인 키 없음"));
 
+        System.out.println("✅ 불러온 프라이빗 키: " + key.getPrivateKey());
         Credentials credentials = Credentials.create(key.getPrivateKey());
         System.out.println("✅ 지갑 주소: " + credentials.getAddress());
 
