@@ -45,6 +45,8 @@ public class BlockchainVoteService {
                 .orElseThrow(() -> new IllegalArgumentException("블록체인 키 없음"));
 
         Credentials credentials = Credentials.create(key.getPrivateKey());
+        System.out.println("✅ 지갑 주소: " + credentials.getAddress());
+
 
         return Vote.load(contractAddress, web3, credentials, new DefaultGasProvider());
     }
