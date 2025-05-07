@@ -9,7 +9,7 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
 
     try {
         // 로그인 API 요청 보내기
-        const response = await fetch('http://localhost:8080/api/auth/login', {
+        const response = await fetch('https://votingv2-production.up.railway.app/api/auth/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'  // JSON 형식으로 전송
@@ -23,6 +23,8 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
 
             // 토큰 저장 (이후 API 호출 시 사용 가능)
             localStorage.setItem('accessToken', data.accessToken);
+            localStorage.setItem('username', data.username);
+            localStorage.setItem('role', data.role);
 
             // 결과 출력
             document.getElementById('result').innerText = `✅ 로그인 성공!`;
@@ -31,7 +33,9 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
             window.location.href = 'vote-list.html';  // 원하는 페이지로 변경 가능
         } else {
             // 로그인 실패 시 메시지 출력
-            document.getElementById('result').innerText = '❌ 로그인 실패 (아이디 또는 비밀번호 오류)';
+            const errorText = await response.text(); // 서버에서 보낸 메시지 받기
+            document.getElementById('result').innerText = '❌ ' + errorText;
+
         }
     } catch (error) {
         console.error('로그인 요청 중 오류 발생:', error);

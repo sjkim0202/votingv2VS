@@ -9,7 +9,7 @@ function logout() {
 }
 
 function loadVotes() {
-    fetch("http://localhost:8080/api/votes", {
+    fetch("https://votingv2-production.up.railway.app/api/votes", {
         method: "GET",
         headers: {
             "Authorization": "Bearer " + accessToken
@@ -191,7 +191,7 @@ function renderClosedVote(vote) {
 }
 
 function togglePublic(voteId, btn) {
-    fetch(`http://localhost:8080/api/votes/${voteId}/toggle-public`, {
+    fetch(`https://votingv2-production.up.railway.app/api/votes/${voteId}/toggle-public`, {
         method: "PATCH",
         headers: {
             "Authorization": "Bearer " + accessToken
@@ -222,7 +222,7 @@ function togglePublic(voteId, btn) {
 function moveToTrash(voteId) {
     if (!confirm("이 투표를 휴지통으로 이동하시겠습니까?")) return;
 
-    fetch(`http://localhost:8080/api/votes/${voteId}/trash`, {
+    fetch(`https://votingv2-production.up.railway.app/api/votes/${voteId}/trash`, {
         method: "PATCH",
         headers: {
             "Authorization": "Bearer " + accessToken
@@ -239,3 +239,10 @@ function moveToTrash(voteId) {
 }
 
 loadVotes();
+
+
+// ✅ 관리자면 투표 생성 버튼 보여주기
+if (role === "ADMIN" || role === "DEVELOP") {
+    document.querySelectorAll(".admin-only").forEach(el => el.style.display = "inline-block");
+}
+

@@ -72,6 +72,7 @@ public class BlockchainVoteService {
 
             return (BigInteger) logs.get(0).getIndexedValues().get(0).getValue();
         } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException("createVote 실패", e);
         }
     }
