@@ -4,7 +4,7 @@ const token = localStorage.getItem("accessToken");
 const role = localStorage.getItem("role");  // ✅
 
 const fallbackImage = 'data:image/svg+xml;base64,' + btoa(`
-    <svg width="120" height="160" xmlns="http://www.w3.org/2000/svg">
+    <svg width="120" height="160" xmlns="https://www.w3.org/2000/svg">
         <rect width="120" height="160" fill="#eee"/>
         <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#777" font-size="12">No Image</text>
     </svg>
@@ -14,7 +14,7 @@ const fallbackImage = 'data:image/svg+xml;base64,' + btoa(`
 if (!voteId) {
     alert("잘못된 접근입니다. (투표 ID 없음)");
 } else {
-    fetch(`http://votingv2-production.up.railway.app:8080/api/votes/${voteId}`, {
+    fetch(`https://votingv2-production.up.railway.app:8080/api/votes/${voteId}`, {
         headers: { Authorization: `Bearer ${token}` }
     })
         .then(res => {
@@ -87,7 +87,7 @@ document.getElementById("vote-form").addEventListener("submit", async e => {
     if (!confirmed) return;
 
     try {
-        const res = await fetch(`http://votingv2-production.up.railway.app:8080/api/votes/${voteId}/vote`, {
+        const res = await fetch(`https://votingv2-production.up.railway.app:8080/api/votes/${voteId}/vote`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
