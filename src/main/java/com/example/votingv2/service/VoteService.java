@@ -37,6 +37,12 @@ public class VoteService {
      */
     @Transactional
     public VoteResponse createVote(VoteRequest request) {
+
+        if (request.getItems() == null || request.getItems().isEmpty()) {
+            throw new IllegalArgumentException("❌ 후보자 항목이 최소 1개 이상 필요합니다.");
+        }
+
+
         // 현재 로그인한 사용자 가져오기
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUsername = authentication.getName();
