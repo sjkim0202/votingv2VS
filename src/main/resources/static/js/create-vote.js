@@ -103,7 +103,7 @@ document.getElementById("vote-form").addEventListener("submit", async (e) => {
     }
 
     try {
-        const response = await fetch("http://localhost:8080/api/votes", {
+        const response = await fetch("http://votingv2-production.up.railway.app:8080/api/votes", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

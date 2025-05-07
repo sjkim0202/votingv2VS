@@ -9,7 +9,7 @@ function logout() {
 }
 
 function loadVotes() {
-    fetch("http://localhost:8080/api/votes", {
+    fetch("http://votingv2-production.up.railway.app:8080/api/votes", {
         method: "GET",
         headers: {
             "Authorization": "Bearer " + accessToken
@@ -191,7 +191,7 @@ function renderClosedVote(vote) {
 }
 
 function togglePublic(voteId, btn) {
-    fetch(`http://localhost:8080/api/votes/${voteId}/toggle-public`, {
+    fetch(`http://votingv2-production.up.railway.app:8080/api/votes/${voteId}/toggle-public`, {
         method: "PATCH",
         headers: {
             "Authorization": "Bearer " + accessToken
@@ -222,7 +222,7 @@ function togglePublic(voteId, btn) {
 function moveToTrash(voteId) {
     if (!confirm("이 투표를 휴지통으로 이동하시겠습니까?")) return;
 
-    fetch(`http://localhost:8080/api/votes/${voteId}/trash`, {
+    fetch(`http://votingv2-production.up.railway.app:8080/api/votes/${voteId}/trash`, {
         method: "PATCH",
         headers: {
             "Authorization": "Bearer " + accessToken

@@ -14,7 +14,7 @@ const fallbackImage = 'data:image/svg+xml;base64,' + btoa(`
 if (!voteId) {
     alert("잘못된 접근입니다. (투표 ID 없음)");
 } else {
-    fetch(`http://localhost:8080/api/votes/${voteId}`, {
+    fetch(`http://votingv2-production.up.railway.app:8080/api/votes/${voteId}`, {
         headers: { Authorization: `Bearer ${token}` }
     })
         .then(res => {
@@ -87,7 +87,7 @@ document.getElementById("vote-form").addEventListener("submit", async e => {
     if (!confirmed) return;
 
     try {
-        const res = await fetch(`http://localhost:8080/api/votes/${voteId}/vote`, {
+        const res = await fetch(`http://votingv2-production.up.railway.app:8080/api/votes/${voteId}/vote`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
