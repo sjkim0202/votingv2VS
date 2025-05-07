@@ -31,7 +31,9 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
             window.location.href = 'vote-list.html';  // 원하는 페이지로 변경 가능
         } else {
             // 로그인 실패 시 메시지 출력
-            document.getElementById('result').innerText = '❌ 로그인 실패 (아이디 또는 비밀번호 오류)';
+            const errorText = await response.text(); // 서버에서 보낸 메시지 받기
+            document.getElementById('result').innerText = '❌ ' + errorText;
+
         }
     } catch (error) {
         console.error('로그인 요청 중 오류 발생:', error);
