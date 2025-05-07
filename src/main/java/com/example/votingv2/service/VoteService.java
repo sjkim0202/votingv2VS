@@ -7,6 +7,8 @@ import com.example.votingv2.dto.VoteResultResponseDto;
 import com.example.votingv2.entity.*;
 import com.example.votingv2.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.core.Authentication;
@@ -31,6 +33,8 @@ public class VoteService {
     private final VoteItemRepository voteItemRepository;
     private final VoteResultRepository voteResultRepository;
     private final BlockchainVoteService blockchainVoteService;
+    private static final Logger logger = LoggerFactory.getLogger(VoteService.class);
+
 
     /**
      * 투표 생성 처리
@@ -72,7 +76,7 @@ public class VoteService {
             // ✅ 블록체인 voteId 저장
             vote.setBlockchainVoteId(blockchainVoteId);
         } catch (Exception e) {
-            System.err.println("⚠️ 블록체인 투표 생성 실패: " + e.getMessage());
+            logger.error("⚠️ 블록체인 투표 생성 실패", e);
             throw new RuntimeException("블록체인에 투표 생성 실패", e);
             // ❗ 실패하면 DB 저장하지 않고 롤백되게 한다.
         }
