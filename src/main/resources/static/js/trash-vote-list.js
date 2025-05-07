@@ -1,7 +1,7 @@
 const accessToken = localStorage.getItem("accessToken");
 
 function loadDeletedVotes() {
-    fetch("https://votingv2-production.up.railway.app:8080/api/votes/deleted", {
+    fetch("https://votingv2-production.up.railway.app/api/votes/deleted", {
         method: "GET",
         headers: {
             "Authorization": "Bearer " + accessToken
@@ -57,7 +57,7 @@ function deletePermanently(id) {
 function restoreVote(id) {
     if (!confirm("이 투표를 복원하시겠습니까?")) return;
 
-    fetch(`https://votingv2-production.up.railway.app:8080/api/votes/${id}/restore`, {
+    fetch(`https://votingv2-production.up.railway.app/api/votes/${id}/restore`, {
         method: "PATCH",
         headers: {
             "Authorization": "Bearer " + accessToken
