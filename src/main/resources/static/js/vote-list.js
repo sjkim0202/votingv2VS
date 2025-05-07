@@ -239,3 +239,10 @@ function moveToTrash(voteId) {
 }
 
 loadVotes();
+
+
+// ✅ 관리자면 투표 생성 버튼 보여주기
+if (role === "ADMIN" || role === "DEVELOP") {
+    document.querySelectorAll(".admin-only").forEach(el => el.style.display = "inline-block");
+}
+

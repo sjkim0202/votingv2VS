@@ -23,6 +23,8 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
 
             // 토큰 저장 (이후 API 호출 시 사용 가능)
             localStorage.setItem('accessToken', data.accessToken);
+            localStorage.setItem('username', data.username);
+            localStorage.setItem('role', data.role);
 
             // 결과 출력
             document.getElementById('result').innerText = `✅ 로그인 성공!`;
