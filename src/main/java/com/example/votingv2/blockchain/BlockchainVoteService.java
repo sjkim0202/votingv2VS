@@ -17,8 +17,13 @@ import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.methods.response.Log;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
+import org.web3j.protocol.exceptions.TransactionException;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.tx.gas.DefaultGasProvider;
+import org.web3j.tx.gas.ContractGasProvider;
+import org.web3j.tx.gas.StaticGasProvider;
+import org.web3j.utils.Convert;
+
 
 import java.math.BigInteger;
 import java.util.*;
@@ -48,14 +53,19 @@ public class BlockchainVoteService {
         Credentials credentials = Credentials.create(key.getPrivateKey());
         System.out.println("✅ 지갑 주소: " + credentials.getAddress());
 
+        ContractGasProvider gasProvider = new StaticGasProvider(
+                Convert.toWei("20", Convert.Unit.GWEI).toBigInteger(), // gasPrice
+                BigInteger.valueOf(500_000)                            // gasLimit
+        );
 
-        return Vote.load(contractAddress, web3, credentials, new DefaultGasProvider());
+        return Vote.load(contractAddress, web3, credentials, gasProvider);
     }
 
     // ✅ 블록체인에 투표 생성
     public BigInteger createVote(String username, String title, List<String> items) throws Exception {
         try {
             TransactionReceipt receipt = loadContract(username).createVote(title, items).send();
+            System.out.println("📦 트랜잭션 해시: " + receipt.getTransactionHash());
 
             Event voteCreatedEvent = new Event("VoteCreated",
                     Arrays.asList(
@@ -71,9 +81,9 @@ public class BlockchainVoteService {
             }
 
             return (BigInteger) logs.get(0).getIndexedValues().get(0).getValue();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("createVote 실패", e);
+        } catch (TransactionException e) {
+            System.err.println("⚠️ 블록체인 트랜잭션 실패: " + e.getMessage());
+            throw new RuntimeException("트랜잭션 실패 또는 처리 지연", e);
         }
     }
 
