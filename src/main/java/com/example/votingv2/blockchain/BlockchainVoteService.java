@@ -68,20 +68,13 @@ public class BlockchainVoteService {
             TransactionReceipt receipt = loadContract(username).createVote(title, items).send();
             System.out.println("📦 트랜잭션 해시: " + receipt.getTransactionHash());
 
-            Event voteCreatedEvent = new Event("VoteCreated",
-                    Arrays.asList(
-                            new TypeReference<Uint256>(true) {},
-                            new TypeReference<Utf8String>() {}
-                    )
-            );
-
-            List<EventValuesWithLog> logs = extractEvent(receipt, voteCreatedEvent);
+            List<Vote.VoteCreatedEventResponse> logs = Vote.getVoteCreatedEvents(receipt);
 
             if (logs.isEmpty()) {
                 throw new IllegalStateException("VoteCreated 이벤트를 찾을 수 없습니다.");
             }
 
-            return (BigInteger) logs.get(0).getIndexedValues().get(0).getValue();
+            return logs.get(0).voteId;
         } catch (TransactionException e) {
             System.err.println("⚠️ 블록체인 트랜잭션 실패: " + e.getMessage());
             throw new RuntimeException("트랜잭션 실패 또는 처리 지연", e);

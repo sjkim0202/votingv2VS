@@ -4,42 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="565d7f29-b902-405d-8951-a8179e79d01b" name="변경" comment="0514">
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules/votingv2.main.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.13/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/checksums/checksums.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.13/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/checksums/md5-checksums.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.13/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/checksums/sha1-checksums.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.13/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/executionHistory/executionHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.13/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.13/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.13/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.13/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/fileHashes/resourceHashesCache.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blockchain/contracts/Vote.sol" beforeDir="false" afterPath="$PROJECT_DIR$/blockchain/contracts/Vote.sol" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/votingv2/blockchain/BlockchainVoteService$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/votingv2/blockchain/BlockchainVoteService$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/votingv2/blockchain/BlockchainVoteService$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/votingv2/blockchain/BlockchainVoteService$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/votingv2/blockchain/BlockchainVoteService$EventValuesWithLog.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/votingv2/blockchain/BlockchainVoteService$EventValuesWithLog.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/votingv2/blockchain/BlockchainVoteService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/votingv2/blockchain/BlockchainVoteService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/votingv2/blockchain/Vote$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/votingv2/blockchain/Vote$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/votingv2/blockchain/Vote$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/votingv2/blockchain/Vote$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/votingv2/blockchain/Vote$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/votingv2/blockchain/Vote$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/votingv2/blockchain/Vote.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/votingv2/blockchain/Vote.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/reports/problems/problems-report.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/reports/problems/problems-report.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/static/js/create-vote.js" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/static/js/create-vote.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/static/js/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/static/js/login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/static/js/trash-vote-list.js" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/static/js/trash-vote-list.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/static/js/vote-detail.js" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/static/js/vote-detail.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/static/js/vote-list.js" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/static/js/vote-list.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/static/js/vote-result.js" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/static/js/vote-result.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/votingv2/blockchain/BlockchainVoteService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/votingv2/blockchain/BlockchainVoteService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/votingv2/blockchain/Vote.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+    <list default="true" id="565d7f29-b902-405d-8951-a8179e79d01b" name="변경" comment="0519">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -185,7 +151,7 @@
       <workItem from="1747200530986" duration="3619000" />
       <workItem from="1747652298830" duration="2388000" />
       <workItem from="1747660269152" duration="448000" />
-      <workItem from="1747660722735" duration="2529000" />
+      <workItem from="1747660722735" duration="3670000" />
     </task>
     <task id="LOCAL-00001" summary="0507">
       <option name="closed" value="true" />
@@ -371,7 +337,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747204449355</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="0519">
+      <option name="closed" value="true" />
+      <created>1747663369546</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1747663369546</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -391,6 +365,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="0507" />
     <MESSAGE value="0514" />
-    <option name="LAST_COMMIT_MESSAGE" value="0514" />
+    <MESSAGE value="0519" />
+    <option name="LAST_COMMIT_MESSAGE" value="0519" />
   </component>
 </project>
