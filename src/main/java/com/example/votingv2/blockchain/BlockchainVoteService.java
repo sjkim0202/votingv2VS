@@ -35,7 +35,7 @@ import java.util.stream.Collectors;
 public class BlockchainVoteService {
 
     private final Web3j web3 = Web3j.build(new HttpService("https://sepolia.infura.io/v3/83da2e9359224d08ae3fa24549c036b8"));
-    private final String contractAddress = "0xd9145CCE52D386f254917e481eB44e9943F39138";
+    private final String contractAddress = "0x7e92c2B63849278B5ab80A00834723Dd4d54268E";
 
     private final UserRepository userRepository;
     private final UserBlockchainKeyRepository userBlockchainKeyRepository;
