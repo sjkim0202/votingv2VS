@@ -67,28 +67,13 @@ public class BlockchainVoteService {
         try {
             Vote vote = loadContract(username);
             TransactionReceipt receipt = vote.createVote(title, items).send();
-            System.out.println("📦 트랜잭션 해시: " + receipt.getTransactionHash());
-
             System.out.println("📜 receipt.getLogs().size() = " + receipt.getLogs().size());
             receipt.getLogs().forEach(log -> System.out.println("🔹 log: " + log));
 
-            // 👉 Web3j에서 생성된 이벤트 헬퍼 메서드 사용
             List<Vote.VoteCreatedEventResponse> events = Vote.getVoteCreatedEvents(receipt);
             if (events.isEmpty()) {
-                System.out.println("⚠️ Web3j 이벤트 로드 실패. 수동 파싱 시도.");
-                Event voteCreatedEvent = new Event("VoteCreated",
-                        Arrays.asList(
-                                new TypeReference<Uint256>(true) {},
-                                new TypeReference<Utf8String>() {}
-                        )
-                );
-                List<EventValuesWithLog> logs = extractEvent(receipt, voteCreatedEvent);
-                if (logs.isEmpty()) {
-                    throw new IllegalStateException("VoteCreated 이벤트를 찾을 수 없습니다.");
-                }
-                return (BigInteger) logs.get(0).getIndexedValues().get(0).getValue();
+                throw new IllegalStateException("VoteCreated 이벤트를 찾을 수 없습니다.");
             }
-
             return events.get(0).voteId;
 
         } catch (TransactionException e) {
