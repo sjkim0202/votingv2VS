@@ -65,16 +65,18 @@ public class BlockchainVoteService {
     // ✅ 블록체인에 투표 생성
     public BigInteger createVote(String username, String title, List<String> items) throws Exception {
         try {
-            TransactionReceipt receipt = loadContract(username).createVote(title, items).send();
+            Vote vote = loadContract(username);
+            TransactionReceipt receipt = vote.createVote(title, items).send();
             System.out.println("📦 트랜잭션 해시: " + receipt.getTransactionHash());
 
-            List<Vote.VoteCreatedEventResponse> logs = Vote.getVoteCreatedEvents(receipt);
-
-            if (logs.isEmpty()) {
+// 👉 Web3j에서 생성된 이벤트 헬퍼 메서드 사용
+            List<Vote.VoteCreatedEventResponse> events = Vote.getVoteCreatedEvents(receipt);
+            if (events.isEmpty()) {
                 throw new IllegalStateException("VoteCreated 이벤트를 찾을 수 없습니다.");
             }
 
-            return logs.get(0).voteId;
+            return events.get(0).voteId;
+
         } catch (TransactionException e) {
             System.err.println("⚠️ 블록체인 트랜잭션 실패: " + e.getMessage());
             throw new RuntimeException("트랜잭션 실패 또는 처리 지연", e);
