@@ -79,7 +79,14 @@ public class Vote extends Contract {
 
     public static List<VoteCreatedEventResponse> getVoteCreatedEvents(
             TransactionReceipt transactionReceipt) {
-        List<Contract.EventValuesWithLog> valueList = staticExtractEventParametersWithLog(VOTECREATED_EVENT, transactionReceipt);
+        List<Contract.EventValuesWithLog> valueList = new ArrayList<>();
+        for (Log log : transactionReceipt.getLogs()) {
+            Contract.EventValuesWithLog eventValues = staticExtractEventParametersWithLog(VOTECREATED_EVENT, log);
+            if (eventValues != null) {
+                valueList.add(eventValues);
+            }
+        }
+
         ArrayList<VoteCreatedEventResponse> responses = new ArrayList<VoteCreatedEventResponse>(valueList.size());
         for (Contract.EventValuesWithLog eventValues : valueList) {
             VoteCreatedEventResponse typedResponse = new VoteCreatedEventResponse();
@@ -113,7 +120,14 @@ public class Vote extends Contract {
 
     public static List<VoteSubmittedEventResponse> getVoteSubmittedEvents(
             TransactionReceipt transactionReceipt) {
-        List<Contract.EventValuesWithLog> valueList = staticExtractEventParametersWithLog(VOTESUBMITTED_EVENT, transactionReceipt);
+        List<Contract.EventValuesWithLog> valueList = new ArrayList<>();
+        for (Log log : transactionReceipt.getLogs()) {
+            Contract.EventValuesWithLog eventValues = staticExtractEventParametersWithLog(VOTECREATED_EVENT, log);
+            if (eventValues != null) {
+                valueList.add(eventValues);
+            }
+        }
+
         ArrayList<VoteSubmittedEventResponse> responses = new ArrayList<VoteSubmittedEventResponse>(valueList.size());
         for (Contract.EventValuesWithLog eventValues : valueList) {
             VoteSubmittedEventResponse typedResponse = new VoteSubmittedEventResponse();
