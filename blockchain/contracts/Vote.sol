@@ -37,7 +37,7 @@ contract Vote {
     }
 
     // ✅ 하나의 투표에 대한 구조
-    struct Vote {
+    struct VoteData {
         string title;                       // 투표 제목
         mapping(uint => VoteItem) items;    // 항목 목록 (인덱스 기반)
         uint itemCount;                     // 항목 개수
@@ -45,7 +45,7 @@ contract Vote {
     }
 
     // 🔧 전체 투표 저장소: voteId → Vote
-    mapping(uint => Vote) public voteMap;
+    mapping(uint => VoteData) public voteMap;
 
     // 📌 다음 투표 ID (1부터 시작)
     uint public nextVoteId = 1;
@@ -54,7 +54,7 @@ contract Vote {
     // title: 투표 제목
     // _itemNames: 투표 항목 이름들 (문자열 배열)
     function createVote(string memory _title, string[] memory _itemNames) public {
-        Vote storage v = voteMap[nextVoteId];   // 현재 voteId에 해당하는 공간 확보
+        VoteData storage v = voteMap[nextVoteId];   // 현재 voteId에 해당하는 공간 확보
         v.title = _title;
         v.itemCount = _itemNames.length;
 
@@ -72,7 +72,7 @@ contract Vote {
     // _voteId: 투표 ID
     // _itemIndex: 선택한 항목의 인덱스
     function submitVote(uint _voteId, uint _itemIndex) public {
-        Vote storage v = voteMap[_voteId];
+        VoteData storage v = voteMap[_voteId];
 
         require(!v.hasVoted[msg.sender], "aaaa");         // 중복 방지
         require(_itemIndex < v.itemCount, "bbbb");   // 범위 체크
@@ -89,7 +89,7 @@ contract Vote {
         string[] memory itemNames,
         uint[] memory voteCounts
     ) {
-        Vote storage v = voteMap[_voteId];
+        VoteData storage v = voteMap[_voteId];
         title = v.title;
 
         itemNames = new string[](v.itemCount);   // 항목 이름들 저장할 배열

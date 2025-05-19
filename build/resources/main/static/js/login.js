@@ -9,7 +9,7 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
 
     try {
         // 로그인 API 요청 보내기
-        const response = await fetch('https://votingv2-production.up.railway.app/api/auth/login', {
+        const response = await fetch('https://votingv2-production-708e.up.railway.app/api/auth/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'  // JSON 형식으로 전송

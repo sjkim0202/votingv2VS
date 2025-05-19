@@ -19,6 +19,7 @@ import org.web3j.protocol.core.methods.response.Log;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.exceptions.TransactionException;
 import org.web3j.protocol.http.HttpService;
+import org.web3j.tuples.generated.Tuple3;
 import org.web3j.tx.gas.DefaultGasProvider;
 import org.web3j.tx.gas.ContractGasProvider;
 import org.web3j.tx.gas.StaticGasProvider;
@@ -94,17 +95,17 @@ public class BlockchainVoteService {
 
     // ✅ 투표 결과 조회
     public Map<String, Object> getVoteResult(String username, BigInteger voteId) throws Exception {
-        List<Type> result = loadContract(username).getVoteResult(voteId).send();
+        Tuple3<String, List<String>, List<BigInteger>> result = loadContract(username).getVoteResult(voteId).send();
 
-        String title = ((Utf8String) result.get(0)).getValue();
-        List<Utf8String> items = (List<Utf8String>) result.get(1).getValue();
-        List<Uint256> counts = (List<Uint256>) result.get(2).getValue();
+        String title = result.component1();
+        List<String> items = result.component2();
+        List<BigInteger> counts = result.component3();
+
 
         Map<String, Object> response = new HashMap<>();
         response.put("title", title);
-        response.put("items", items.stream().map(Utf8String::getValue).collect(Collectors.toList()));
-        response.put("counts", counts.stream().map(Uint256::getValue).collect(Collectors.toList()));
-
+        response.put("items", items);
+        response.put("counts", counts);
         return response;
     }
 
