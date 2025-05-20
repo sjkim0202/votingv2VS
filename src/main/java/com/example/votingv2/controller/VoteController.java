@@ -26,10 +26,11 @@ public class VoteController {
 
     // 투표 생성
     @PostMapping
-    public ResponseEntity<VoteResponse> createVote(@RequestBody VoteRequest request) {
-        VoteResponse response = voteService.createVote(request);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<String> createVote(@RequestBody VoteRequest request) {
+        voteService.createVote(request);
+        return ResponseEntity.ok("투표가 성공적으로 생성되었습니다.");
     }
+
 
     // 투표 목록 조회
     @GetMapping
@@ -52,17 +53,19 @@ public class VoteController {
     }
 
 
-    // ✅ 사용자 투표 제출
     @PostMapping("/{id}/vote")
     public ResponseEntity<String> submitVote(
             @PathVariable Long id,
-            @RequestBody VoteRequest request,
+            @RequestParam int itemIndex,
             @AuthenticationPrincipal UserDetails userDetails) {
 
-        String username = userDetails.getUsername();
-        voteService.submitVote(id, request, username);
+        String username = userDetails.getUsername();  // 현재 로그인한 사용자 ID
+        voteService.submitVote(id, itemIndex, username);  // username도 넘겨줌
+
         return ResponseEntity.ok("투표가 성공적으로 제출되었습니다.");
     }
+
+
 
     // 삭제된 투표 목록 조회
     @GetMapping("/deleted")
@@ -101,8 +104,4 @@ public class VoteController {
         voteService.restoreFromTrash(id);
         return ResponseEntity.ok("복원 완료");
     }
-
-
-
-
 }

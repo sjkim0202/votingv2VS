@@ -49,6 +49,6 @@ public class Vote {
     @Column(name = "blockchain_vote_id")
     private BigInteger blockchainVoteId;
 
-
-
+    @Column(name = "is_closed")
+    private Boolean isClosed;
 }
