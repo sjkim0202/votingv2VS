@@ -86,6 +86,17 @@ document.getElementById("vote-form").addEventListener("submit", async e => {
     const confirmed = confirm(`${selectedTitle}\n이 후보자에게 투표하시겠습니까?`);
     if (!confirmed) return;
 
+    // 🔍 디버깅용 로그
+    console.log("🟡 accessToken:", token);
+    console.log("🟢 투표 제출 요청", {
+        url: `https://votingv2-production-708e.up.railway.app/api/votes/${voteId}/vote`,
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: { itemIndex: selected.value }
+    });
+
     try {
         const res = await fetch(`https://votingv2-production-708e.up.railway.app/api/votes/${voteId}/vote`, {
             method: "POST",
