@@ -93,7 +93,7 @@ document.getElementById("vote-form").addEventListener("submit", async e => {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`
             },
-            body: JSON.stringify({ selectedItemId: selected.value })
+            body: JSON.stringify({ itemIndex: selected.value })
         });
 
         if (res.ok) {

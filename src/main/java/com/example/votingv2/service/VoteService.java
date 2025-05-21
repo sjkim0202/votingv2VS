@@ -80,6 +80,14 @@ public class VoteService {
 
     @Transactional
     public void submitVote(Long voteId, int itemIndex, String username) {
+
+        // 🔍 인증 정보 디버깅용 로그
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("▶ 현재 인증된 사용자: " + auth.getName());
+        System.out.println("▶ 인증 타입: " + auth.getClass().getSimpleName());
+        System.out.println("▶ isAuthenticated: " + auth.isAuthenticated());
+        System.out.println("▶ principal: " + auth.getPrincipal());
+
         Vote vote = voteRepository.findById(voteId)
                 .orElseThrow(() -> new IllegalArgumentException("투표 없음"));
 
