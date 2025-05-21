@@ -85,6 +85,7 @@ public class VoteService {
         System.out.println("🔐 auth.getName(): " + auth.getName());
         System.out.println("🔐 authenticated: " + auth.isAuthenticated());
         System.out.println("🔐 username: " + username);
+        System.out.println("❗ 중복 투표 발견 → ID: ...");  // ← 이게 찍히면 중복
 
         Vote vote = voteRepository.findById(voteId)
                 .orElseThrow(() -> new IllegalArgumentException("투표 없음"));
