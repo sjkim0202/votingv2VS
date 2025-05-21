@@ -86,16 +86,8 @@ document.getElementById("vote-form").addEventListener("submit", async e => {
     const confirmed = confirm(`${selectedTitle}\n이 후보자에게 투표하시겠습니까?`);
     if (!confirmed) return;
 
-    // 🔍 디버깅용 로그
-    console.log("🟡 accessToken:", token);
-    console.log("🟢 투표 제출 요청", {
-        url: `https://votingv2-production-708e.up.railway.app/api/votes/${voteId}/vote`,
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`
-        },
-        body: { itemIndex: selected.value }
-    });
+    // ✅ 로딩 오버레이 표시
+    document.getElementById("loading-overlay").style.display = "block";
 
     try {
         const res = await fetch(`https://votingv2-production-708e.up.railway.app/api/votes/${voteId}/vote`, {
@@ -104,7 +96,7 @@ document.getElementById("vote-form").addEventListener("submit", async e => {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`
             },
-            body: JSON.stringify({selectedItemId: selected.value })
+            body: JSON.stringify({ selectedItemId: selected.value })
         });
 
         if (res.ok) {
@@ -116,6 +108,9 @@ document.getElementById("vote-form").addEventListener("submit", async e => {
     } catch (err) {
         console.error("투표 중 오류:", err);
         alert("⚠️ 네트워크 오류");
+    } finally {
+        // ✅ 요청 완료 후 로딩 오버레이 숨기기
+        document.getElementById("loading-overlay").style.display = "none";
     }
 });
 
