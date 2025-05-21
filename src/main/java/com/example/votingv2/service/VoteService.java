@@ -39,7 +39,6 @@ public class VoteService {
     private final BlockchainVoteService blockchainVoteService;
     private static final Logger logger = LoggerFactory.getLogger(VoteService.class);
 
-
     /**
      * 투표 생성 처리
      */
@@ -91,10 +90,14 @@ public class VoteService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("사용자 없음"));
 
+        System.out.println("user ID: " + user.getId());
+        System.out.println("vote ID: " + vote.getId());
+        System.out.println("중복 존재 여부: " +
+                voteResultRepository.findByUserIdAndVoteId(user.getId(), vote.getId()).isPresent());
+
         if (voteResultRepository.findByUserIdAndVoteId(user.getId(), vote.getId()).isPresent()) {
             throw new IllegalStateException("이미 참여한 투표입니다.");
         }
-
 
         List<VoteItem> items = voteItemRepository.findByVote(vote);
         if (itemIndex < 0 || itemIndex >= items.size()) {
@@ -110,10 +113,8 @@ public class VoteService {
                 .voteItem(selectedItem)
                 .votedAt(LocalDateTime.now())
                 .build();
-        voteResultRepository.saveAndFlush(voteResult);
         VoteResult savedResult = voteResultRepository.saveAndFlush(voteResult);
         System.out.println("Saved VoteResult ID = " + savedResult.getId());
-
 
         try {
             blockchainVoteService.submitVoteAsServer(vote.getBlockchainVoteId(), BigInteger.valueOf(itemIndex));
@@ -121,8 +122,6 @@ public class VoteService {
             throw new RuntimeException("투표 실패", e);
         }
     }
-
-
 
     /**
      * 투표 단건 조회 (항목 포함)
@@ -201,8 +200,6 @@ public class VoteService {
                 .collect(Collectors.toList());
     }
 
-
-
     /**
      * 내부 변환 로직: Vote 엔티티 → VoteResponse DTO
      */
@@ -246,7 +243,6 @@ public class VoteService {
         vote.setPublic(!vote.isPublic());
     }
 
-
     public Map<String, Object> getBlockchainVoteResult(String username, Long voteId) throws Exception {
         Vote vote = voteRepository.findById(voteId)
                 .orElseThrow(() -> new IllegalArgumentException("투표 없음"));
@@ -256,9 +252,5 @@ public class VoteService {
         }
 
         return blockchainVoteService.getVoteResultServer(vote.getBlockchainVoteId());
-
     }
-
-
-
 }
