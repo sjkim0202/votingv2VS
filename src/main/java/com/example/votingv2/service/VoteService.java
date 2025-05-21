@@ -91,6 +91,11 @@ public class VoteService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("사용자 없음"));
 
+        if (voteResultRepository.findByUserIdAndVoteId(user.getId(), vote.getId()).isPresent()) {
+            throw new IllegalStateException("이미 참여한 투표입니다.");
+        }
+
+
         List<VoteItem> items = voteItemRepository.findByVote(vote);
         if (itemIndex < 0 || itemIndex >= items.size()) {
             throw new IllegalArgumentException("항목 인덱스 오류");
@@ -105,7 +110,9 @@ public class VoteService {
                 .voteItem(selectedItem)
                 .votedAt(LocalDateTime.now())
                 .build();
-        voteResultRepository.save(voteResult);
+        voteResultRepository.saveAndFlush(voteResult);
+        VoteResult savedResult = voteResultRepository.saveAndFlush(voteResult);
+        System.out.println("Saved VoteResult ID = " + savedResult.getId());
 
 
         try {
