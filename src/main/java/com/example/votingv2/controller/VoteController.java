@@ -52,6 +52,7 @@ public class VoteController {
         return ResponseEntity.ok(voteService.getBlockchainVoteResult(username, voteId));
     }
 
+
     @PostMapping("/{id}/vote")
     public ResponseEntity<String> submitVote(
             @PathVariable Long id,
