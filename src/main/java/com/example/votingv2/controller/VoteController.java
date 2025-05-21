@@ -52,7 +52,6 @@ public class VoteController {
         return ResponseEntity.ok(voteService.getBlockchainVoteResult(username, voteId));
     }
 
-
     @PostMapping("/{id}/vote")
     public ResponseEntity<String> submitVote(
             @PathVariable Long id,
@@ -60,7 +59,7 @@ public class VoteController {
             @AuthenticationPrincipal UserDetails userDetails) {
 
         String username = userDetails.getUsername();
-        voteService.submitVote(id, request.getSelectedItemId(), username);
+        voteService.submitVote(id, request, username);
         return ResponseEntity.ok("투표가 성공적으로 제출되었습니다.");
     }
 
