@@ -79,14 +79,13 @@ public class VoteService {
     }
 
     @Transactional
-    public void submitVote(Long voteId, int itemIndex, String username) {
+    public void submitVote(Long voteId, Long selectedItemId, String username) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         System.out.println("🔐 auth.getName(): " + auth.getName());
         System.out.println("🔐 principal: " + auth.getPrincipal());
         System.out.println("🔐 authenticated: " + auth.isAuthenticated());
         System.out.println("🔐 username: " + username);
-
 
         Vote vote = voteRepository.findById(voteId)
                 .orElseThrow(() -> new IllegalArgumentException("투표 없음"));
@@ -95,41 +94,56 @@ public class VoteService {
             throw new IllegalStateException("블록체인 투표 ID 없음");
         }
 
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new IllegalArgumentException("사용자 없음"));
+        User user;
+        try {
+            user = userRepository.findByUsername(username)
+                    .orElseThrow(() -> new IllegalArgumentException("사용자 없음"));
+            System.out.println("✅ user ID: " + user.getId());
+        } catch (Exception e) {
+            System.out.println("❌ 사용자 조회 실패: " + e.getMessage());
+            e.printStackTrace();
+            throw e;
+        }
 
         System.out.println("user ID: " + user.getId());
         System.out.println("vote ID: " + vote.getId());
-        System.out.println("중복 존재 여부: " +
-                voteResultRepository.findByUserIdAndVoteId(user.getId(), vote.getId()).isPresent());
 
         if (voteResultRepository.findByUserIdAndVoteId(user.getId(), vote.getId()).isPresent()) {
             throw new IllegalStateException("이미 참여한 투표입니다.");
         }
 
-        List<VoteItem> items = voteItemRepository.findByVote(vote);
-        if (itemIndex < 0 || itemIndex >= items.size()) {
-            throw new IllegalArgumentException("항목 인덱스 오류");
+        VoteItem selectedItem = voteItemRepository.findById(selectedItemId)
+                .orElseThrow(() -> new IllegalArgumentException("선택한 항목이 존재하지 않습니다."));
+
+        if (!selectedItem.getVote().getId().equals(voteId)) {
+            throw new IllegalArgumentException("선택한 항목이 이 투표에 속하지 않습니다.");
         }
 
-        VoteItem selectedItem = items.get(itemIndex);
-
-        // DB 저장
         VoteResult voteResult = VoteResult.builder()
                 .user(user)
                 .vote(vote)
                 .voteItem(selectedItem)
                 .votedAt(LocalDateTime.now())
                 .build();
+
         VoteResult savedResult = voteResultRepository.saveAndFlush(voteResult);
-        System.out.println("Saved VoteResult ID = " + savedResult.getId());
+        System.out.println("✅ Saved VoteResult ID = " + savedResult.getId());
+
+        // 블록체인 인덱스 계산
+        List<VoteItem> items = voteItemRepository.findByVote(vote);
+        int blockchainIndex = items.indexOf(selectedItem);
+        if (blockchainIndex < 0) {
+            throw new IllegalStateException("블록체인 인덱스 계산 실패");
+        }
 
         try {
-            blockchainVoteService.submitVoteAsServer(vote.getBlockchainVoteId(), BigInteger.valueOf(itemIndex));
+            blockchainVoteService.submitVoteAsServer(vote.getBlockchainVoteId(), BigInteger.valueOf(blockchainIndex));
         } catch (Exception e) {
-            throw new RuntimeException("투표 실패", e);
+            throw new RuntimeException("블록체인 투표 실패", e);
         }
     }
+
+
 
     /**
      * 투표 단건 조회 (항목 포함)

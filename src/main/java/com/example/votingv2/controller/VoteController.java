@@ -56,11 +56,11 @@ public class VoteController {
     @PostMapping("/{id}/vote")
     public ResponseEntity<String> submitVote(
             @PathVariable Long id,
-            @RequestParam int itemIndex,
+            @RequestParam VoteRequest request,
             @AuthenticationPrincipal UserDetails userDetails) {
 
         String username = userDetails.getUsername();  // 현재 로그인한 사용자 ID
-        voteService.submitVote(id, itemIndex, username);  // username도 넘겨줌
+        voteService.submitVote(id, request.getSelectedItemId(), username);  // username도 넘겨줌
 
         return ResponseEntity.ok("투표가 성공적으로 제출되었습니다.");
     }

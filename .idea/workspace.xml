@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="565d7f29-b902-405d-8951-a8179e79d01b" name="변경" comment="0521">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/votingv2/controller/VoteController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/votingv2/controller/VoteController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/votingv2/service/VoteService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/votingv2/service/VoteService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -162,7 +164,7 @@
       <workItem from="1747660722735" duration="12830000" />
       <workItem from="1747733189923" duration="22674000" />
       <workItem from="1747766916869" duration="76000" />
-      <workItem from="1747826530104" duration="5562000" />
+      <workItem from="1747826530104" duration="6601000" />
     </task>
     <task id="LOCAL-00001" summary="0507">
       <option name="closed" value="true" />
@@ -468,7 +470,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747831546549</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="0521">
+      <option name="closed" value="true" />
+      <created>1747832273249</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1747832273249</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
