@@ -74,6 +74,10 @@ document.getElementById("vote-form").addEventListener("submit", async (e) => {
     const confirmed = confirm("정말 이 내용으로 투표를 생성하시겠습니까?");
     if (!confirmed) return;
 
+    // ✅ 로딩 오버레이 표시
+    document.getElementById("loading-overlay").style.display = "block";
+
+
     const title = document.getElementById("title").value.trim();
     const description = document.getElementById("description").value.trim();
     const deadline = document.getElementById("deadline").value;
@@ -99,6 +103,9 @@ document.getElementById("vote-form").addEventListener("submit", async (e) => {
 
     if (!token) {
         document.getElementById('result').innerText = '⚠️ 로그인 정보가 없습니다. 다시 로그인 해주세요.';
+        // ✅ 로딩 오버레이 숨기기 (return 전)
+        document.getElementById("loading-overlay").style.display = "none";
+
         return;
     }
 
@@ -121,6 +128,9 @@ document.getElementById("vote-form").addEventListener("submit", async (e) => {
     } catch (error) {
         console.error('투표 생성 중 오류:', error);
         alert('⚠️ 네트워크 오류');
+    }finally {
+        // ✅ 요청 완료 후 로딩 오버레이 숨기기
+        document.getElementById("loading-overlay").style.display = "none";
     }
 });
 
