@@ -4,29 +4,25 @@
     <meta charset="UTF-8" />
     <title id="page-title">투표 상세 보기</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/vote-detail.css" />
+    <link rel="stylesheet" href="css/vote-detail.css">
 </head>
 <body>
-
-<!-- 공약 보기 모달 -->
 <div id="promise-modal">
+    <button id="close-promise">닫기</button>
     <div class="modal-content">
-        <h3>공약</h3>
         <img id="promise-preview" src="" alt="후보 이미지" />
         <div id="promise-text"></div>
-        <div class="modal-footer">
-            <button id="close-promise">닫기</button>
-        </div>
+        <div class="modal-footer"></div>
     </div>
 </div>
 
 <div class="container">
     <h2 id="page-header">투표 상세</h2>
-    <p class="vote-warning">※한 번만 투표할 수 있으며 수정은 불가능합니다.</p>
+    <p class="vote-warning">※한 번만 투표할 수 있으며 수정 불가능합니다.</p>
     <hr class="divider" />
 
     <form id="vote-form">
-        <div class="label">후보</div>
+
         <div id="vote-items" class="vote-item-list"></div>
 
         <div class="btn-group">

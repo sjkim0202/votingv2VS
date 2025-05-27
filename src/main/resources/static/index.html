@@ -4,127 +4,28 @@
     <meta charset="UTF-8" />
     <title>로그인</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <style>
-        body {
-            font-family: "Noto Sans KR", sans-serif;
-            background-color: #b0c7e6; /* 진한 하늘색 배경 */
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .container {
-            background-color: white;
-            padding: 40px 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 420px;
-            text-align: center;
-        }
-
-        .logo {
-            width: 100px;
-            margin: 0 auto 20px auto;
-        }
-
-        h2 {
-            margin-bottom: 30px;
-            font-weight: 700;
-            color: #111;
-        }
-
-        input[type="text"],
-        input[type="password"] {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 18px;
-            font-size: 15px;
-            border: 1px solid #bbb;
-            border-radius: 8px;
-            box-sizing: border-box;
-            transition: border-color 0.3s ease;
-        }
-
-        input:focus {
-            border-color: #4878d4; /* 진한 파란색 테두리 */
-            outline: none;
-        }
-
-        button {
-            width: 100%;
-            background-color: cornflowerblue; /* 진한 초록색 */
-            color: white;
-            font-size: 16px;
-            border: none;
-            padding: 12px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        button:hover {
-            background-color: dodgerblue; /* 더 진한 초록 */
-        }
-
-        #result {
-            margin-top: 15px;
-            color: #e74c3c;
-            font-size: 14px;
-        }
-        @media (max-width: 430px) {
-            .container {
-                padding: 24px 16px;
-                max-width: 90%;
-                border-radius: 12px;
-            }
-
-            .logo {
-                width: 80px;
-                margin-bottom: 16px;
-            }
-
-            h2 {
-                font-size: 1.3rem;
-                margin-bottom: 24px;
-            }
-
-            input[type="text"],
-            input[type="password"] {
-                font-size: 1rem;
-                padding: 12px;
-                margin-bottom: 16px;
-            }
-
-            button {
-                font-size: 1rem;
-                padding: 12px;
-            }
-
-            #result {
-                font-size: 0.875rem;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="css/index.css" />
 </head>
 <body>
 <div class="container">
-    <!-- 세명대학교 로고 -->
-    <img src="image/smu.jpg" class="logo" alt="세명대 로고" />
-    <h2>세명대학교 전자투표 시스템</h2>
-
-    <!-- 로그인 폼 -->
+    <h4>by Team.김강송이</h4>
+    <a href="https://setopia.semyung.ac.kr/main/index.jsp" target="_blank">
+        <img src="../image/smu.jpg" class="logo" alt="세명대 로고" />
+    </a>
+    <h2>세명대학교 전자투표 시스템 </h2>
     <form id="login-form">
         <input type="text" id="username" placeholder="학번" required />
         <input type="password" id="password" placeholder="비밀번호" required />
         <button type="submit">로그인</button>
     </form>
+    <h3>
+        <a href="https://www.instagram.com/tae_min.i" target="_blank">도움이 필요하신가요?</a>
+    </h3>
+
 
     <div id="result"></div>
 </div>
 
-<script src="js/login.js"></script>
+<script src="js/index.js" defer></script>
 </body>
 </html>

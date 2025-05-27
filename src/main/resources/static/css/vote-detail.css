@@ -1,6 +1,8 @@
+
 body {
+    user-select: none;
     font-family: "Noto Sans KR", sans-serif;
-    background-color: #b0c7e6;
+    background: linear-gradient(to right, #b0c7e6, #d8e1f3);
     margin: 0;
     display: flex;
     justify-content: center;
@@ -12,11 +14,15 @@ body {
 .container {
     background-color: #fff;
     padding: 40px 30px;
-    border-radius: 15px;
-    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
     width: 100%;
     max-width: 600px;
     box-sizing: border-box;
+    transition: box-shadow 0.3s ease;
+}
+.container:hover {
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.15);
 }
 
 h2 {
@@ -42,25 +48,31 @@ h2 {
 .vote-item-list {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 14px;
 }
 
 .vote-item {
-    background-color: #fff;
+    background-color: #fdfdff;
     padding: 16px;
-    border-radius: 12px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
     display: flex;
     align-items: center;
     gap: 16px;
     flex-wrap: wrap;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+.vote-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    background-color: aliceblue; /* 커서 올렸을 때 배경색 변화 */
 }
 
 .vote-image {
     width: 120px;
     height: 160px;
     background-color: #ccc;
-    border-radius: 6px;
+    border-radius: 8px;
     object-fit: cover;
     flex-shrink: 0;
 }
@@ -94,28 +106,69 @@ h2 {
 }
 
 .promise-btn {
-    background: #e0e9f5;
+    background: linear-gradient(to right, #d6e6ff, #e0e9f5);
     border: 1px solid #7aa0d8;
-    border-radius: 6px;
+    border-radius: 8px;
     font-size: 13px;
-    padding: 4px 10px;
-    color: #1e458f;
+    font-weight: 600;
+    padding: 8px 14px;
+    color: #2a57b2;
     cursor: pointer;
     white-space: nowrap;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.promise-btn:hover {
+    background: linear-gradient(to right, #c2d8ff, #d4e0f3);
+    transform: translateY(-1px) scale(1.04);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+#close-promise {
+    white-space: nowrap; /* 줄바꿈 방지 */
+    writing-mode: horizontal-tb; /* 가로쓰기 강제 (기본값이지만 명시적으로 지정 가능) */
+    position: absolute;
+    top: 80px; /* 모달이 margin-top: 100px일 때, 약간 위 */
+    right: calc(50% - 250px + 10px); /* 중앙 기준 오른쪽 정렬 (모달 max-width: 500px 기준) */
+    background: red;
+    width: auto;
+    height: auto;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    transition: background 0.2s ease;
+    display: flex;
+    justify-content: center; /* 가로 중앙 */
+    align-items: center;
+}
+
+#close-promise:hover {
+    background: orangered;
+    transform: scale(1.1);
 }
 
 .vote-item input[type="radio"] {
-    transform: scale(1.3);
-    cursor: pointer;
+    display: none;
 }
 
 .btn-group {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
     margin-top: 25px;
 }
+.vote-item input[type="radio"]:checked ~ * {
+    background-color: #e1ecff; /* ✅ 선택됐을 때 박스 전체 밝은 파란색 */
+}
 
+/* 선택된 전체 vote-item 강조 효과 */
+.vote-item:has(input[type="radio"]:checked),
+.vote-item.selected {
+    background-color: #e1ecff;
+    box-shadow: 0 0 0 3px #2a72de33;
+}
 button {
     padding: 12px;
     font-size: 16px;
@@ -124,17 +177,16 @@ button {
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
-
 button:hover {
     background-color: dodgerblue;
+    transform: scale(1.02);
 }
 
 .back-btn {
     background-color: #999;
 }
-
 .back-btn:hover {
     background-color: #777;
 }
@@ -149,16 +201,16 @@ button:hover {
 }
 
 #promise-modal .modal-content {
+    position: relative;
     background: white;
     width: 90%;
-    max-width: 400px;
-    height: 500px;
+    max-width: 500px;
+    height: 540px;
     overflow-y: auto;
-    overflow-x: hidden;
-    margin: 80px auto;
+    margin: 100px auto 0 auto; /* 아래로 내리기 위해 top margin 설정 */
     padding: 20px;
-    border-radius: 10px;
-    position: relative;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
     box-sizing: border-box;
 }
 
@@ -178,7 +230,8 @@ button:hover {
     font-size: 14px;
     line-height: 1.4;
     width: 100%;
-    margin: 0 auto 10px;
+    margin: 10px auto 20px;
+    padding-top: 30px;
     overflow-y: auto;
     overflow-x: hidden;
     box-sizing: border-box;
@@ -192,12 +245,10 @@ button:hover {
 #promise-modal .modal-content::-webkit-scrollbar {
     width: 8px;
 }
-
 #promise-modal .modal-content::-webkit-scrollbar-thumb {
     background: #bbb;
     border-radius: 6px;
 }
-
 #promise-modal .modal-content::-webkit-scrollbar-track {
     background: #eee;
 }
@@ -207,20 +258,60 @@ button:hover {
         flex-direction: column;
         gap: 10px;
     }
-
     .vote-image {
         width: 100px;
         height: 140px;
         margin: 0 auto;
     }
-
     .vote-right {
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
     }
-
     .vote-info .title {
         text-align: center;
+    }
+}
+input[type="radio"] {
+    appearance: none; /* 기본 모양 제거 */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    width: 18px;
+    height: 18px;
+    border: 2px solid #777;
+    border-radius: 4px; /* 둥근 모서리 → 체크박스처럼 */
+    margin-right: 10px;
+    vertical-align: middle;
+    cursor: pointer;
+    position: relative;
+    background-color: #fff;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+input[type="radio"]:checked {
+    background-color: #2a72de;
+    border-color: #2a72de;
+}
+
+input[type="radio"]::before {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 5px;
+    width: 4px;
+    height: 9px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    opacity: 0;
+}
+
+input[type="radio"]:checked::before {
+    opacity: 1;
+}
+@media (max-width: 600px) {
+    #close-promise {
+        right: 20px;
     }
 }

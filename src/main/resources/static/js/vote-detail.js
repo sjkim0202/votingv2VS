@@ -10,11 +10,13 @@ const fallbackImage = 'data:image/svg+xml;base64,' + btoa(`
     </svg>
 `);
 
+let lastSelectedRadio = null; // ✅ 이전 선택 추적
+
 // 투표 상세 로딩
 if (!voteId) {
     alert("잘못된 접근입니다. (투표 ID 없음)");
 } else {
-    fetch(`https://votingv2-production-708e.up.railway.app/api/votes/${voteId}`, {
+    fetch(`http://localhost:8080/api/votes/${voteId}`, {
         headers: { Authorization: `Bearer ${token}` }
     })
         .then(res => {
@@ -35,21 +37,40 @@ if (!voteId) {
                 const promise = item.promise || "";
                 const description = item.description || "";
 
-                const div = document.createElement("div");
+                const div = document.createElement("label");
                 div.className = "vote-item";
                 div.innerHTML = `
-                <img src="${imageSrc}" class="vote-image" alt="이미지" />
-                <div class="vote-info">
-                    <div class="title">[${item.itemText || "제목 없음"}]</div>
-                    <div class="desc">${description}</div>
-                </div>
-                <div class="vote-right">
-                    <button type="button" class="promise-btn">공약 ＋</button>
-                    <input type="radio" name="selectedItemId" value="${item.itemId}" required />
-                </div>
-                <div class="promise" style="display: none;">${promise}</div>
-            `;
+                    <input type="radio" name="selectedItemId" value="${item.itemId}" />
+                    <img src="${imageSrc}" class="vote-image" alt="이미지" />
+                    <div class="vote-info">
+                        <div class="title">[${item.itemText || "제목 없음"}]</div>
+                        <div class="desc">${description}</div>
+                    </div>
+                    <div class="vote-right">
+                        <button type="button" class="promise-btn">공약 ＋</button>
+                    </div>
+                    <div class="promise" style="display: none;">${promise}</div>
+                `;
                 container.appendChild(div);
+
+                // ✅ 선택 해제 가능하도록 이벤트 추가
+                const radio = div.querySelector('input[type="radio"]');
+                radio.addEventListener('click', function () {
+                    if (lastSelectedRadio === this) {
+                        this.checked = false;
+                        lastSelectedRadio = null;
+                        div.classList.remove("selected");
+                    } else {
+                        lastSelectedRadio = this;
+
+                        // 모든 박스의 selected 클래스 제거
+                        document.querySelectorAll(".vote-item").forEach(item => {
+                            item.classList.remove("selected");
+                        });
+
+                        div.classList.add("selected");
+                    }
+                });
             });
 
             // ✅ admin일 때 투표하기 버튼, 라디오 버튼 제거
@@ -124,6 +145,10 @@ document.addEventListener("click", e => {
         document.getElementById("promise-preview").src = img;
         document.getElementById("promise-text").innerText = promiseText;
         document.getElementById("promise-modal").style.display = "block";
+        const modalContent = document.querySelector("#promise-modal .modal-content");
+        if (modalContent) {
+            modalContent.scrollTop = 0;
+        }
     }
 });
 
@@ -131,3 +156,4 @@ document.addEventListener("click", e => {
 document.getElementById("close-promise").addEventListener("click", () => {
     document.getElementById("promise-modal").style.display = "none";
 });
+const totalVotes = voteData.datasets[0].data.reduce((a, b) => a + b, 0);

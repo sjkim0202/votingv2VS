@@ -9,17 +9,22 @@ function addItem() {
     const id = Date.now();
 
     itemDiv.innerHTML = `
-        <button type="button" class="remove-btn">삭제</button>
-        <img id="preview-${id}" src="${fallbackImage}" alt="이미지 미리보기" />
-        <div class="vote-info">
-            <input type="text" class="item-text" placeholder="후보자 이름" required />
-            <div class="description-wrapper">
-                <textarea class="item-description" placeholder="설명 (선택)"></textarea>
-                <button type="button" class="promise-btn">공약 ＋</button>
-            </div>
-            <input type="file" accept="image/*" class="image-input" data-preview="preview-${id}" />
+    <button type="button" class="remove-btn">삭제</button>
+    <img id="preview-${id}" src="${fallbackImage}" alt="이미지 미리보기" />
+    <div class="vote-info">
+        <input type="text" class="item-text" placeholder="후보자 이름" required />
+        <div class="description-wrapper">
+            <textarea class="item-description" placeholder="설명 (선택)"></textarea>
         </div>
-    `;
+        <div class="button-group-horizontal">
+            <label class="custom-file-upload">
+                이미지 추가
+             <input type="file" accept="image/*" class="image-input" data-preview="preview-${id}" />
+            </label>
+            <button type="button" class="promise-btn">공약 ＋</button>
+         </div>
+    </div>
+`;
 
     itemDiv.querySelector(".remove-btn").addEventListener("click", () => {
         container.removeChild(itemDiv);
@@ -46,7 +51,9 @@ function addItem() {
 document.addEventListener("click", function (e) {
     if (e.target.classList.contains("promise-btn")) {
         currentPromiseTarget = e.target;
-        const textarea = currentPromiseTarget.closest(".description-wrapper").querySelector(".item-description");
+        const textarea = currentPromiseTarget
+            .closest(".vote-info")
+            .querySelector(".item-description");
         document.getElementById("promise-textarea").value = textarea.dataset.promise || "";
         document.getElementById("promise-modal").style.display = "block";
     }
@@ -55,7 +62,9 @@ document.addEventListener("click", function (e) {
 document.getElementById("save-promise").addEventListener("click", function () {
     const text = document.getElementById("promise-textarea").value.trim();
     if (currentPromiseTarget) {
-        const textarea = currentPromiseTarget.closest(".description-wrapper").querySelector(".item-description");
+        const textarea = currentPromiseTarget
+            .closest(".vote-info")
+            .querySelector(".item-description"); // ✅ 수정됨
         textarea.dataset.promise = text;
         currentPromiseTarget.textContent = text ? "공약 ✔" : "공약 ＋";
     }

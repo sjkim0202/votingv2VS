@@ -1,0 +1,140 @@
+
+body {
+    user-select: none;
+    font-family: "Noto Sans KR", sans-serif;
+    background: linear-gradient(to right, #b0c7e6, #d8e1f3);
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+body.fade-in {
+    opacity: 1;
+}
+
+h3{
+    padding-top: 5px;
+    font-size: 14px;
+    color: lightgray;
+    text-decoration: underline;
+
+}
+a{
+    color: lightgray;
+}
+h4{
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    color: lightgray;
+}
+.container {
+    background-color: white;
+    padding: 40px 30px;
+    border-radius: 20px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+}
+.container:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.16);
+}
+
+.logo {
+    width: 100px;
+    margin: 0 auto 20px auto;
+    transition: transform 0.3s ease;
+}
+.logo:hover {
+    transform: scale(1.05);
+}
+
+h2 {
+    margin-bottom: 30px;
+    font-weight: 700;
+    color: #111;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 18px;
+    font-size: 15px;
+    border: 1px solid #bbb;
+    border-radius: 8px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+input:focus {
+    border-color: #4878d4;
+    outline: none;
+    box-shadow: 0 0 6px rgba(72, 120, 212, 0.3);
+}
+
+button {
+    width: 100%;
+    background-color: cornflowerblue;
+    color: white;
+    font-size: 16px;
+    border: none;
+    padding: 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+button:hover {
+    background-color: dodgerblue;
+    transform: scale(1.02);
+}
+
+#result {
+    margin-top: 15px;
+    color: #e74c3c;
+    font-size: 14px;
+}
+
+/* iPhone 14 Pro 및 모바일 최적화 */
+@media (max-width: 430px) {
+    .container {
+        padding: 24px 16px;
+        max-width: 90%;
+        border-radius: 16px;
+    }
+
+    .logo {
+        width: 80px;
+        margin-bottom: 16px;
+    }
+
+    h2 {
+        font-size: 1.3rem;
+        margin-bottom: 24px;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+        font-size: 1rem;
+        padding: 12px;
+        margin-bottom: 16px;
+    }
+
+    button {
+        font-size: 1rem;
+        padding: 12px;
+    }
+
+    #result {
+        font-size: 0.875rem;
+    }
+}

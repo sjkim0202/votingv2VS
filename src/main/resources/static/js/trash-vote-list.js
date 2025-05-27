@@ -1,7 +1,7 @@
 const accessToken = localStorage.getItem("accessToken");
 
 function loadDeletedVotes() {
-    fetch("https://votingv2-production-708e.up.railway.app/api/votes/deleted", {
+    fetch("http://localhost:8080/api/votes/deleted", {
         method: "GET",
         headers: {
             "Authorization": "Bearer " + accessToken
@@ -14,14 +14,14 @@ function loadDeletedVotes() {
             data.forEach(vote => {
                 const row = document.createElement("tr");
                 row.innerHTML = `
-                <td>${vote.id}</td>
-                <td>${vote.title}</td>
-                <td>${vote.description || "설명 없음"}</td>
-                <td>
-                    <button class="action-btn delete-btn" onclick="deletePermanently(${vote.id})">완전 삭제</button>
-                    <button class="action-btn restore-btn" onclick="restoreVote(${vote.id})">복원</button>
-                </td>
-            `;
+                    <td>${vote.id}</td>
+                    <td>${vote.title}</td>
+                    <td>${vote.description || "설명 없음"}</td>
+                    <td>
+                        <button class="action-btn delete-btn" onclick="deletePermanently(${vote.id})">완전 삭제</button>
+                        <button class="action-btn restore-btn" onclick="restoreVote(${vote.id})">복원</button>
+                    </td>
+                `;
                 tbody.appendChild(row);
             });
         })
@@ -34,7 +34,7 @@ function loadDeletedVotes() {
 function deletePermanently(id) {
     if (!confirm("정말 이 투표를 완전 삭제하시겠습니까? 복구할 수 없습니다.")) return;
 
-    fetch(`https://votingv2-production-708e.up.railway.app/api/votes/${id}/force`, {
+    fetch(`http://localhost:8080/api/votes/${id}/force`, {
         method: "DELETE",
         headers: {
             "Authorization": "Bearer " + accessToken
@@ -57,7 +57,7 @@ function deletePermanently(id) {
 function restoreVote(id) {
     if (!confirm("이 투표를 복원하시겠습니까?")) return;
 
-    fetch(`https://votingv2-production-708e.up.railway.app/api/votes/${id}/restore`, {
+    fetch(`http://localhost:8080/api/votes/${id}/restore`, {
         method: "PATCH",
         headers: {
             "Authorization": "Bearer " + accessToken
@@ -77,4 +77,5 @@ function restoreVote(id) {
         });
 }
 
+// 초기 로딩
 loadDeletedVotes();

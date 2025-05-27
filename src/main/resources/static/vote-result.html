@@ -4,36 +4,37 @@
   <meta charset="UTF-8" />
   <title>투표 결과</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="css/vote-result.css" />
+  <link rel="stylesheet" href="css/vote-result.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 <div class="container">
   <h2>투표 결과</h2>
 
-  <div class="info-group">
-    <div class="label">투표 제목</div>
-    <div class="value" id="vote-title"></div>
-  </div>
+  <!-- 투표 제목 -->
+  <h3 class="section-title">투표 제목</h3>
+  <div class="value" id="vote-title"></div>
 
-  <div class="info-group">
-    <div class="label">후보자별 득표</div>
-    <div class="candidate-list" id="candidate-list"></div>
-  </div>
+  <!-- 후보자 목록 -->
+  <h3 class="section-title">후보자별 득표</h3>
+  <div class="candidate-list" id="candidate-list"></div>
 
+  <!-- 그래프 영역 -->
+  <h3 class="section-title">투표 결과</h3>
   <div class="charts">
     <div class="chart-container">
       <h3>DB 기준 투표 결과</h3>
       <canvas id="voteChart"></canvas>
-      <div id="db-empty" style="margin-top: 10px; color: #666;"></div>
+      <div id="db-empty" class="empty-message"></div>
     </div>
     <div class="chart-container">
       <h3>블록체인 투표 결과</h3>
       <canvas id="blockchainChart"></canvas>
-      <div id="blockchain-empty" style="margin-top: 10px; color: #666;"></div>
+      <div id="blockchain-empty" class="empty-message"></div>
     </div>
   </div>
 
+  <!-- 돌아가기 버튼 -->
   <button onclick="location.href='vote-list.html'">← 목록으로</button>
 </div>
 
