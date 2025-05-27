@@ -60,6 +60,9 @@ public class VoteService {
                         .vote(vote)
                         .itemText(item.getItemText())
                         .description(item.getDescription())
+                        .image(item.getImage() != null && !item.getImage().startsWith("data:")
+                                ? "data:image/png;base64," + item.getImage()
+                                : item.getImage())
                         .build())
                 .collect(Collectors.toList());
 
