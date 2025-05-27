@@ -15,7 +15,7 @@ function loadVotes() {
     const loading = document.getElementById("loading");
     if (loading) loading.style.display = "block";
 
-    fetch("http://localhost:8080/api/votes", {
+    fetch("https://kksl-voting.up.railway.app/api/votes", {
         method: "GET",
         headers: {
             "Authorization": "Bearer " + accessToken
@@ -213,7 +213,7 @@ function renderClosedVote(vote) {
 }
 
 function togglePublic(voteId, btn) {
-    fetch(`http://localhost:8080/api/votes/${voteId}/toggle-public`, {
+    fetch(`https://kksl-voting.up.railway.app/api/votes/${voteId}/toggle-public`, {
         method: "PATCH",
         headers: {
             "Authorization": "Bearer " + accessToken
@@ -244,7 +244,7 @@ function togglePublic(voteId, btn) {
 function moveToTrash(voteId) {
     if (!confirm("이 투표를 휴지통으로 이동하시겠습니까?")) return;
 
-    fetch(`http://localhost:8080/api/votes/${voteId}/trash`, {
+    fetch(`https://kksl-voting.up.railway.app/api/votes/${voteId}/trash`, {
         method: "PATCH",
         headers: {
             "Authorization": "Bearer " + accessToken

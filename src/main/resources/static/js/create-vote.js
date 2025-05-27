@@ -119,7 +119,7 @@ document.getElementById("vote-form").addEventListener("submit", async (e) => {
     }
 
     try {
-        const response = await fetch("https://votingv2-production-708e.up.railway.app/api/votes", {
+        const response = await fetch("https://kksl-voting.up.railway.app/api/votes", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
