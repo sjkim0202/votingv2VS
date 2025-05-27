@@ -1,7 +1,7 @@
 const accessToken = localStorage.getItem("accessToken");
 
 function loadDeletedVotes() {
-    fetch("https://kksl-voting.up.railway.app/api/votes/${id}/deleted", {
+    fetch("https://kksl-voting.up.railway.app/api/votes/deleted", {
         method: "GET",
         headers: {
             "Authorization": "Bearer " + accessToken
