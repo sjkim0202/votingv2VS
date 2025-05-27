@@ -4,17 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="565d7f29-b902-405d-8951-a8179e79d01b" name="변경" comment="0527">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/create-vote.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/create-vote.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/trash-vote-list.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/trash-vote-list.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/vote-detail.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/vote-detail.js" afterDir="false" />
-    </list>
+    <list default="true" id="565d7f29-b902-405d-8951-a8179e79d01b" name="변경" comment="0527" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -178,7 +168,7 @@
       <workItem from="1747766916869" duration="76000" />
       <workItem from="1747826530104" duration="8946000" />
       <workItem from="1747835708299" duration="3512000" />
-      <workItem from="1748327299967" duration="1813000" />
+      <workItem from="1748327299967" duration="2155000" />
     </task>
     <task id="LOCAL-00001" summary="0507">
       <option name="closed" value="true" />
@@ -540,7 +530,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748328551885</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="0527">
+      <option name="closed" value="true" />
+      <created>1748329316267</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1748329316267</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
