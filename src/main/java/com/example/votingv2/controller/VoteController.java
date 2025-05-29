@@ -34,8 +34,9 @@ public class VoteController {
 
     // 투표 목록 조회
     @GetMapping
-    public ResponseEntity<List<VoteResponse>> getAllVotes() {
-        return ResponseEntity.ok(voteService.getAllVotes());
+    public ResponseEntity<List<VoteResponse>> getAllVotes(@AuthenticationPrincipal UserDetails userDetails) {
+        String username = userDetails.getUsername();
+        return ResponseEntity.ok(voteService.getAllVotesWithVotedFlag(username));
     }
 
     // 투표 상세 조회

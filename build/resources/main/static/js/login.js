@@ -1,44 +1,39 @@
+document.getElementById("login-form").addEventListener("submit", function (e) {
+    e.preventDefault();
 
-// 로그인 폼이 제출되었을 때 실행되는 함수 등록
-document.getElementById('login-form').addEventListener('submit', async (e) => {
-    e.preventDefault(); // 기본 폼 제출 동작(새로고침)을 막음
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
 
-    // 사용자 입력값 가져오기
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
+    fetch("https://kksl-voting.up.railway.app/api/auth/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ username, password })
+    })
+        .then(response => {
+            if (!response.ok) throw new Error("로그인 실패");
+            return response.json();
+        })
+        .then(data => {
+            // 로그인 성공 시 페이드아웃
+            document.body.classList.remove("fade-in");
+            document.body.style.opacity = "0";
 
-    try {
-        // 로그인 API 요청 보내기
-        const response = await fetch('https://votingv2-production-708e.up.railway.app/api/auth/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'  // JSON 형식으로 전송
-            },
-            body: JSON.stringify({ username, password }) // 로그인 정보 전송
+            // 페이드아웃 완료 후 페이지 이동
+            setTimeout(() => {
+                localStorage.setItem("accessToken", data.accessToken);
+                localStorage.setItem("username", data.username);
+                localStorage.setItem("role", data.role);
+                window.location.href = "vote-list.html"; // ✅ 이동 페이지
+            }, 400);
+        })
+        .catch(error => {
+            document.getElementById("result").innerText = "❌ 로그인 실패: " + error.message;
         });
+});
 
-        // 응답 처리
-        if (response.ok) {
-            const data = await response.json(); // 응답 본문(JSON) 파싱
-
-            // 토큰 저장 (이후 API 호출 시 사용 가능)
-            localStorage.setItem('accessToken', data.accessToken);
-            localStorage.setItem('username', data.username);
-            localStorage.setItem('role', data.role);
-
-            // 결과 출력
-            document.getElementById('result').innerText = `✅ 로그인 성공!`;
-
-            // 👉 로그인 성공 시 투표 목록 페이지로 이동
-            window.location.href = 'vote-list.html';  // 원하는 페이지로 변경 가능
-        } else {
-            // 로그인 실패 시 메시지 출력
-            const errorText = await response.text(); // 서버에서 보낸 메시지 받기
-            document.getElementById('result').innerText = '❌ ' + errorText;
-
-        }
-    } catch (error) {
-        console.error('로그인 요청 중 오류 발생:', error);
-        document.getElementById('result').innerText = '⚠️ 로그인 요청 실패';
-    }
+// 페이지 로드 시 페이드인
+window.addEventListener("DOMContentLoaded", () => {
+    document.body.classList.add("fade-in");
 });

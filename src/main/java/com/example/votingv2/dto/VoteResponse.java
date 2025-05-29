@@ -18,6 +18,7 @@ public class VoteResponse {
     private LocalDateTime startTime;
     private boolean isPublic;
     private boolean isDeleted;
+    private boolean voted;
 
 
     // ✅ 투표 항목 정보를 담는 내부 클래스 리스트

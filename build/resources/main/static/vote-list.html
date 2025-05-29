@@ -4,30 +4,39 @@
     <meta charset="UTF-8" />
     <title>투표 목록</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="css/vote-list.css" />
+    <link rel="stylesheet" href="css/vote-list.css">
 </head>
 <body>
 <div class="container">
-    <button class="logout-btn" onclick="logout()">로그아웃</button>
 
-    <h2>투표 목록</h2>
+    <!-- 사용자 바 -->
+    <div class="user-bar">
+        <a href="https://www.semyung.ac.kr" target="_blank">
+            <img src="image/smulogo2.png" class="logo" alt="세명대 이름" />
+        </a>
+        <div class="right-section">
+            <div class="user-info" id="userInfo"></div>
+            <button class="logout-btn" onclick="logout()">X</button>
+        </div>
+    </div>
+
+
 
     <div class="section-title">진행중인 투표</div>
     <table id="voteTable">
         <thead>
         <tr>
             <th style="width: 5%;">ID</th>
-            <th style="width: 15%;">제목</th>
+            <th style="width: 19%;">제목</th>
             <th style="width: 35%;">설명</th>
-            <th style="width: 15%;">시작시간</th>
-            <th style="width: 15%;">마감시간</th>
+            <th style="width: 13%;">시작시간</th>
+            <th style="width: 13%;">마감시간</th>
             <th style="width: 10%;">진행 여부</th>
             <th style="width: 15%;">작업</th>
         </tr>
         </thead>
         <tbody></tbody>
     </table>
-
     <div class="card-list" id="voteCards"></div>
 
     <div class="section-title">마감된 투표</div>
@@ -35,23 +44,27 @@
         <thead>
         <tr>
             <th style="width: 5%;">ID</th>
-            <th style="width: 15%;">제목</th>
+            <th style="width: 19%;">제목</th>
             <th style="width: 35%;">설명</th>
-            <th style="width: 15%;">시작시간</th>
-            <th style="width: 15%;">마감시간</th>
+            <th style="width: 13%;">시작시간</th>
+            <th style="width: 13%;">마감시간</th>
             <th style="width: 10%;">진행 여부</th>
             <th style="width: 15%;">작업</th>
         </tr>
         </thead>
         <tbody></tbody>
     </table>
+    <div id="loading" style="text-align:center; margin:20px; font-weight:bold;">
+        ⏳ 투표 목록을 불러오는 중입니다...
+    </div>
 
     <div class="card-list" id="endedVoteCards"></div>
 
     <div class="button-row">
         <button class="create-btn admin-only" onclick="location.href='create-vote.html'">+ 새 투표 생성</button>
-        <button class="create-btn admin-only" onclick="location.href='trash-vote-list.html'">🗑️휴지통</button>
+        <button class="trash-btn admin-only" onclick="location.href='trash-vote-list.html'">🗑️ 휴지통</button>
     </div>
+
 </div>
 
 <script src="js/vote-list.js"></script>

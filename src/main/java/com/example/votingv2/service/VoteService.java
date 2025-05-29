@@ -122,6 +122,7 @@ public class VoteService {
             throw new IllegalArgumentException("선택한 항목이 이 투표에 속하지 않습니다.");
         }
 
+
         // ✅ 투표 결과 DB 저장
         VoteResult voteResult = VoteResult.builder()
                 .user(user)
@@ -290,5 +291,47 @@ public class VoteService {
         }
 
         return blockchainVoteService.getVoteResultServer(vote.getBlockchainVoteId());
+    }
+    public List<VoteResponse> getAllVotesWithVotedFlag(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("사용자 없음"));
+
+        return voteRepository.findAll().stream()
+                .filter(vote -> !vote.isDeleted())
+                .map(vote -> toResponseWithVotedFlag(vote, user))
+                .collect(Collectors.toList());
+
+    }
+    private VoteResponse toResponseWithVotedFlag(Vote vote, User user) {
+        List<VoteItem> items = voteItemRepository.findByVoteId(vote.getId());
+        boolean isClosed = LocalDateTime.now().isAfter(vote.getDeadline());
+
+        boolean voted = voteResultRepository
+                .findByUserIdAndVoteId(user.getId(), vote.getId())
+                .isPresent();
+
+        return VoteResponse.builder()
+                .id(vote.getId())
+                .title(vote.getTitle())
+                .description(vote.getDescription())
+                .deadline(vote.getDeadline())
+                .isClosed(isClosed)
+                .startTime(vote.getStartTime())
+                .createdAt(vote.getCreatedAt())
+                .isPublic(vote.isPublic())
+                .isDeleted(vote.isDeleted())
+                .voted(voted) //
+                .items(items.stream()
+                        .map(item -> VoteResponse.Item.builder()
+                                .itemId(item.getId())
+                                .itemText(item.getItemText())
+                                .description(item.getDescription())
+                                .promise(item.getPromise())
+                                .image(item.getImage() != null && !item.getImage().startsWith("data:")
+                                        ? "data:image/png;base64," + item.getImage()
+                                        : item.getImage())
+                                .build())
+                        .toList())
+                .build();
     }
 }

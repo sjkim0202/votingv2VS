@@ -1,6 +1,8 @@
+
 body {
+    user-select: none;
     font-family: "Noto Sans KR", sans-serif;
-    background-color: #b0c7e6;
+    background: linear-gradient(to right, #b0c7e6, #d8e1f3);
     margin: 0;
     display: flex;
     justify-content: center;
@@ -12,11 +14,37 @@ body {
 .container {
     background-color: #fff;
     padding: 40px 30px;
-    border-radius: 15px;
-    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 960px;
+    max-width: 720px;
     box-sizing: border-box;
+    transition: box-shadow 0.3s ease;
+}
+.container:hover {
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.15);
+}
+
+.section-title {
+    position: relative;
+    display: inline-block;
+    font-weight: 700;
+    font-size: 18px;
+    margin: 40px 0 16px;
+    color: #1e2a52;
+    border-left: 6px solid cornflowerblue;
+    padding-left: 12px;
+    background: linear-gradient(to right, #f1f5ff, #ffffff);
+    border-radius: 4px;
+    text-align: left;
+}
+.section-title::after {
+    content: "";
+    display: block;
+    height: 2px;
+    background-color: cornflowerblue;
+    margin-top: 4px;
+    width: 100%; /* 텍스트 길이와 동일하게 */
 }
 
 h2 {
@@ -47,6 +75,7 @@ h3 {
 .value {
     font-size: 16px;
     color: #111;
+    padding-left: 20px;
 }
 
 .candidate-list {
@@ -58,15 +87,19 @@ h3 {
 }
 
 .candidate {
-    background-color: #e0e9f5;
-    border-radius: 12px;
-    padding: 12px;
+    background-color: #eaf1fb;
+    border-radius: 16px;
+    padding: 14px;
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 140px;
     text-align: center;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+    transition: transform 0.3s ease;
+}
+.candidate:hover {
+    transform: translateY(-4px);
 }
 
 .charts {
@@ -82,6 +115,19 @@ h3 {
     width: 300px;
 }
 
+.candidate img {
+    width: 80px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    background-color: #ccc;
+    margin-bottom: 10px;
+    transition: transform 0.3s ease;
+}
+.candidate img:hover {
+    transform: scale(1.05);
+}
+
 canvas {
     display: block;
     width: 100% !important;
@@ -93,6 +139,8 @@ canvas {
 .empty-message {
     margin-top: 10px;
     color: #666;
+    font-style: italic;
+    text-align: center;
 }
 
 button {
@@ -105,16 +153,16 @@ button {
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
-
 button:hover {
     background-color: dodgerblue;
+    transform: scale(1.02);
 }
 
-@media (max-width: 600px) {
+@media (max-width: 400px) {
     .candidate {
-        width: 100%;
-        max-width: 280px;
+        flex: 0 0 calc(50% - 8px);
+        max-width: calc(50% - 8px);
     }
 }
