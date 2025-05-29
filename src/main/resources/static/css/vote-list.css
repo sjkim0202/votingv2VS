@@ -300,7 +300,7 @@ button:hover {
     .vote-card button.delete-btn {
         background-color: red;
     }
-    .voted-card button.action-btn {
+    .voted-card button {
         background-color: gray;
         color: white;
 
