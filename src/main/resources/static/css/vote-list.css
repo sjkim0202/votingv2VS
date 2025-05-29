@@ -226,11 +226,8 @@ button:hover {
     background-color: dodgerblue;
 }
 .voted-btn {
-    background-color: #00bcd4;
+    background-color: gray;
     color: white;
-}
-.voted-btn:hover {
-    background-color: #0097a7;
 }
 .toggle-public {
     background-color: lightgray;
@@ -302,5 +299,10 @@ button:hover {
     }
     .vote-card button.delete-btn {
         background-color: red;
+    }
+    .voted-card button.action-btn {
+        background-color: gray;
+        color: white;
+
     }
 }
