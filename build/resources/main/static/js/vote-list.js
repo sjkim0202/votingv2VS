@@ -99,6 +99,8 @@ function renderCard(vote, container, isStarted) {
 
     if (vote.closed) {
         actionButton = `<button class="result-btn action-btn" style="display:none" onclick="location.href='vote-result.html?id=${vote.id}'">결과 보기</button>`;
+    } else if (vote.voted) {
+        actionButton = `<button class="voted-btn action-btn" disabled style="display:none">투표 완료</button>`;
     } else {
         actionButton = `<button class="vote-btn action-btn" style="display:none" onclick="${isStarted ? `location.href='vote-detail.html?id=${vote.id}'` : `alert('투표 시작 전입니다.')`}">투표하기</button>`;
     }
@@ -121,6 +123,7 @@ function renderOpenVote(vote, isStarted) {
 
     let controlButtons = "";
 
+    // 관리자 또는 개발자: 공개/비공개 전환 버튼
     if (role === "ADMIN" || role === "DEVELOP") {
         const toggleClass = vote.public ? "toggle-public" : "toggle-private";
         const toggleLabel = vote.public ? "비공개로 전환" : "공개로 전환";
@@ -130,12 +133,15 @@ function renderOpenVote(vote, isStarted) {
         `;
     }
 
+    // 관리자 권한: 후보자 보기 + 삭제
     if (role === "ADMIN") {
         controlButtons += `
             <button class="action-btn view-btn" style="display:none" onclick="location.href='vote-detail.html?id=${vote.id}'">후보자 보기</button>
             <button class="action-btn delete-btn" style="display:none" onclick="moveToTrash(${vote.id})">휴지통</button>
         `;
-    } else if (role === "DEVELOP") {
+    }
+    // 개발자 권한: 프리뷰 및 투표, 삭제
+    else if (role === "DEVELOP") {
         if (vote.closed) {
             controlButtons += `
                 <button class="action-btn vote-btn" style="display:none" onclick="location.href='vote-detail.html?id=${vote.id}'">투표하기<br>(마감됨)</button>
@@ -143,16 +149,33 @@ function renderOpenVote(vote, isStarted) {
         } else {
             controlButtons += `
                 <button class="action-btn preview-btn" style="display:none" onclick="location.href='vote-result.html?id=${vote.id}&preview=true'">미리<br>결과 보기</button>
-                <button class="action-btn vote-btn" style="display:none" onclick="${isStarted ? `location.href='vote-detail.html?id=${vote.id}'` : `alert('투표 시작 전입니다.')`}">투표하기</button>
             `;
+            if (vote.voted) {
+                controlButtons += `
+                    <button class="action-btn voted-btn" style="display:none" disabled>투표 완료</button>
+                `;
+            } else {
+                controlButtons += `
+                    <button class="action-btn vote-btn" style="display:none" onclick="${isStarted ? `location.href='vote-detail.html?id=${vote.id}'` : `alert('투표 시작 전입니다.')`}">투표하기</button>
+                `;
+            }
         }
+
         controlButtons += `
             <button class="action-btn delete-btn" style="display:none" onclick="moveToTrash(${vote.id})">휴지통</button>
         `;
-    } else {
-        controlButtons += `
-            <button class="action-btn vote-btn" style="display:none" onclick="${isStarted ? `location.href='vote-detail.html?id=${vote.id}'` : `alert('투표 시작 전입니다.')`}">투표하기</button>
-        `;
+    }
+    // 일반 사용자: 투표 or 투표 완료
+    else {
+        if (vote.voted) {
+            controlButtons += `
+                <button class="action-btn voted-btn" style="display:none" disabled>투표 완료</button>
+            `;
+        } else {
+            controlButtons += `
+                <button class="action-btn vote-btn" style="display:none" onclick="${isStarted ? `location.href='vote-detail.html?id=${vote.id}'` : `alert('투표 시작 전입니다.')`}">투표하기</button>
+            `;
+        }
     }
 
     row.innerHTML = `

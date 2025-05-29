@@ -4,45 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="565d7f29-b902-405d-8951-a8179e79d01b" name="변경" comment="0527">
+    <list default="true" id="565d7f29-b902-405d-8951-a8179e79d01b" name="변경" comment="0529">
       <change beforePath="$PROJECT_DIR$/.gradle/8.13/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.13/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.13/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.13/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.13/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/votingv2.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/votingv2.main.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/votingv2/blockchain/BlockchainVoteService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/votingv2/blockchain/BlockchainVoteService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/votingv2/controller/VoteController.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/votingv2/controller/VoteController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/votingv2/repository/VoteResultRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/votingv2/repository/VoteResultRepository.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/votingv2/service/VoteService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/votingv2/service/VoteService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/reports/problems/problems-report.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/reports/problems/problems-report.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/static/create-vote.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/static/create-vote.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/static/css/create-vote.css" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/static/css/create-vote.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/static/css/trash-vote-list.css" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/static/css/trash-vote-list.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/static/css/vote-detail.css" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/static/css/vote-detail.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/static/css/vote-list.css" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/static/css/vote-list.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/static/css/vote-result.css" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/static/css/vote-result.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/static/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/static/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/static/js/create-vote.js" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/static/js/create-vote.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/static/js/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/static/js/login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/static/js/trash-vote-list.js" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/static/js/trash-vote-list.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/static/js/vote-detail.js" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/static/js/vote-detail.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/resources/main/static/js/vote-list.js" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/static/js/vote-list.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/static/js/vote-result.js" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/static/js/vote-result.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/static/trash-vote-list.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/static/trash-vote-list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/static/vote-detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/static/vote-detail.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/resources/main/static/vote-list.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/static/vote-list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/static/vote-result.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/static/vote-result.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/votingv2/controller/VoteController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/votingv2/controller/VoteController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/votingv2/dto/VoteResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/votingv2/dto/VoteResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/votingv2/repository/VoteItemRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/votingv2/repository/VoteItemRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/votingv2/service/VoteService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/votingv2/service/VoteService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/vote-list.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/vote-list.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/vote-list.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/vote-list.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,7 +61,7 @@
     <setting file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-jpa/3.4.4/f76849d9fd2852d84881c28ec43d53b55523a96f/spring-data-jpa-3.4.4-sources.jar!/org/springframework/data/jpa/repository/JpaRepository.java" root0="SKIP_INSPECTION" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
+    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
@@ -213,15 +192,7 @@
       <workItem from="1748334784365" duration="744000" />
       <workItem from="1748413033319" duration="186000" />
       <workItem from="1748499071760" duration="808000" />
-      <workItem from="1748514805340" duration="449000" />
-    </task>
-    <task id="LOCAL-00007" summary="0507">
-      <option name="closed" value="true" />
-      <created>1746619998454</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1746619998454</updated>
+      <workItem from="1748514805340" duration="1193000" />
     </task>
     <task id="LOCAL-00008" summary="0507">
       <option name="closed" value="true" />
@@ -607,7 +578,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748335308558</updated>
     </task>
-    <option name="localTasksCounter" value="56" />
+    <task id="LOCAL-00056" summary="0529">
+      <option name="closed" value="true" />
+      <created>1748515496129</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1748515496130</updated>
+    </task>
+    <option name="localTasksCounter" value="57" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -631,6 +610,7 @@
     <MESSAGE value="0520" />
     <MESSAGE value="0521" />
     <MESSAGE value="0527" />
-    <option name="LAST_COMMIT_MESSAGE" value="0527" />
+    <MESSAGE value="0529" />
+    <option name="LAST_COMMIT_MESSAGE" value="0529" />
   </component>
 </project>

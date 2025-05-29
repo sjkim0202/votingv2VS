@@ -11,5 +11,4 @@ import java.util.List;
  */
 public interface VoteItemRepository extends JpaRepository<VoteItem, Long> {
     List<VoteItem> findByVoteIdOrderByIdAsc(Long voteId); // 특정 투표에 속한 항목들 조회
-    List<VoteItem> findByVote(Vote vote);
 }

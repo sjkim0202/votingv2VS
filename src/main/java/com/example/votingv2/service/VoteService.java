@@ -303,7 +303,7 @@ public class VoteService {
 
     }
     private VoteResponse toResponseWithVotedFlag(Vote vote, User user) {
-        List<VoteItem> items = voteItemRepository.findByVoteId(vote.getId());
+        List<VoteItem> items = voteItemRepository.findByVoteIdOrderByIdAsc(vote.getId());
         boolean isClosed = LocalDateTime.now().isAfter(vote.getDeadline());
 
         boolean voted = voteResultRepository
