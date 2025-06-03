@@ -108,7 +108,7 @@ function renderCard(vote, container, isStarted) {
     card.innerHTML = `
         <div class="title">${vote.title}</div>
         <div class="desc">설명: ${vote.description}</div>
-        <div class="desc">기간: ${vote.startTime.slice(0, 16)} ~ ${vote.deadline.slice(0, 16)}</div>
+        <div class="desc">기간: ${new Date(vote.startTime).toLocaleString("ko-KR")} ~ ${new Date(vote.deadline).toLocaleString("ko-KR")}</div>
         <div class="desc">상태: ${status}</div>
         <div class="actions" style="display:none">${actionButton}</div>
     `;
@@ -182,8 +182,8 @@ function renderOpenVote(vote, isStarted) {
         <td>${vote.id}</td>
         <td>${titleCell}</td>
         <td>${vote.description}</td>
-        <td>${vote.startTime.replace("T", " ").substring(0, 16)}</td>
-        <td>${vote.deadline.replace("T", " ").substring(0, 16)}</td>
+        <td>${new Date(vote.startTime).toLocaleString("ko-KR")}</td>
+        <td>${new Date(vote.deadline).toLocaleString("ko-KR")}</td>
         <td>${vote.closed ? "마감" : isStarted ? "진행 중" : "시작 전"}</td>
         <td>${controlButtons}</td>
     `;
@@ -226,8 +226,8 @@ function renderClosedVote(vote) {
         <td>${vote.id}</td>
         <td>${titleCell}</td>
         <td>${vote.description || '설명이 없습니다.'}</td>
-        <td>${vote.startTime.replace("T", " ").substring(0, 16)}</td>
-        <td>${vote.deadline.replace("T", " ").substring(0, 16)}</td>
+        <td>${new Date(vote.startTime).toLocaleString("ko-KR")}</td>
+        <td>${new Date(vote.deadline).toLocaleString("ko-KR")}</td>
         <td>마감</td>
         <td>${controlButtons}</td>
     `;

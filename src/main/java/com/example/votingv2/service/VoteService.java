@@ -19,6 +19,7 @@ import com.example.votingv2.repository.VoteItemRepository;
 import com.example.votingv2.blockchain.BlockchainVoteService;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Map;
@@ -176,8 +177,8 @@ public class VoteService {
                 .id(vote.getId())
                 .title(vote.getTitle())
                 .description(vote.getDescription())
-                .deadline(vote.getDeadline().atOffset(ZoneOffset.ofHours(9)))
-                .createdAt(vote.getCreatedAt().atOffset(ZoneOffset.ofHours(9)))
+                .deadline(vote.getDeadline().atZone(ZoneId.of("Asia/Seoul")).toOffsetDateTime())
+                .createdAt(vote.getCreatedAt().atZone(ZoneId.of("Asia/Seoul")).toOffsetDateTime())
                 .items(items.stream()
                         .map(item -> VoteResponse.Item.builder()
                                 .itemId(item.getId())
@@ -252,10 +253,10 @@ public class VoteService {
                 .id(vote.getId())
                 .title(vote.getTitle())
                 .description(vote.getDescription())
-                .deadline(vote.getDeadline().atOffset(ZoneOffset.ofHours(9)))
+                .deadline(vote.getDeadline().atZone(ZoneId.of("Asia/Seoul")).toOffsetDateTime())
                 .isClosed(isClosed) //  여기서 실시간 계산된 값 사용
-                .startTime(vote.getStartTime().atOffset(ZoneOffset.ofHours(9)))  // 추가
-                .createdAt(vote.getCreatedAt().atOffset(ZoneOffset.ofHours(9)))
+                .startTime(vote.getStartTime().atZone(ZoneId.of("Asia/Seoul")).toOffsetDateTime())  // 추가
+                .createdAt(vote.getCreatedAt().atZone(ZoneId.of("Asia/Seoul")).toOffsetDateTime())
                 .isPublic(vote.isPublic())
                 .isDeleted(vote.isDeleted())
                 .items(items.stream()
@@ -315,9 +316,9 @@ public class VoteService {
                 .title(vote.getTitle())
                 .description(vote.getDescription())
                 .isClosed(isClosed)
-                .deadline(vote.getDeadline().atOffset(ZoneOffset.ofHours(9)))
-                .createdAt(vote.getCreatedAt().atOffset(ZoneOffset.ofHours(9)))
-                .startTime(vote.getStartTime().atOffset(ZoneOffset.ofHours(9)))
+                .deadline(vote.getDeadline().atZone(ZoneId.of("Asia/Seoul")).toOffsetDateTime())
+                .createdAt(vote.getCreatedAt().atZone(ZoneId.of("Asia/Seoul")).toOffsetDateTime())
+                .startTime(vote.getStartTime().atZone(ZoneId.of("Asia/Seoul")).toOffsetDateTime())
                 .isPublic(vote.isPublic())
                 .isDeleted(vote.isDeleted())
                 .voted(voted) //
