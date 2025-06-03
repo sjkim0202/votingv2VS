@@ -6,13 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="565d7f29-b902-405d-8951-a8179e79d01b" name="변경" comment="0529">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/votingv2/dto/VoteResponse$Item$ItemBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/votingv2/dto/VoteResponse$Item$ItemBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/votingv2/dto/VoteResponse$Item.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/votingv2/dto/VoteResponse$Item.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/votingv2/dto/VoteResponse$VoteResponseBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/votingv2/dto/VoteResponse$VoteResponseBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/votingv2/dto/VoteResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/votingv2/dto/VoteResponse.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/votingv2/repository/VoteItemRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/votingv2/repository/VoteItemRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/vote-list.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/vote-list.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/vote-list.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/vote-list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/vote-list.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/vote-list.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -183,23 +178,10 @@
       <workItem from="1748334784365" duration="744000" />
       <workItem from="1748413033319" duration="186000" />
       <workItem from="1748499071760" duration="808000" />
-      <workItem from="1748514805340" duration="2149000" />
-    </task>
-    <task id="LOCAL-00009" summary="0507">
-      <option name="closed" value="true" />
-      <created>1746620984475</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1746620984475</updated>
-    </task>
-    <task id="LOCAL-00010" summary="0507">
-      <option name="closed" value="true" />
-      <created>1746621662584</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1746621662584</updated>
+      <workItem from="1748514805340" duration="2621000" />
+      <workItem from="1748564856808" duration="2331000" />
+      <workItem from="1748684468023" duration="62000" />
+      <workItem from="1748931048829" duration="626000" />
     </task>
     <task id="LOCAL-00011" summary="0507">
       <option name="closed" value="true" />
@@ -577,7 +559,23 @@
       <option name="project" value="LOCAL" />
       <updated>1748516021759</updated>
     </task>
-    <option name="localTasksCounter" value="58" />
+    <task id="LOCAL-00058" summary="0529">
+      <option name="closed" value="true" />
+      <created>1748519230875</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1748519230875</updated>
+    </task>
+    <task id="LOCAL-00059" summary="0529">
+      <option name="closed" value="true" />
+      <created>1748519399439</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1748519399439</updated>
+    </task>
+    <option name="localTasksCounter" value="60" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
