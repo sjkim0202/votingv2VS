@@ -19,6 +19,7 @@ import com.example.votingv2.repository.VoteItemRepository;
 import com.example.votingv2.blockchain.BlockchainVoteService;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -175,9 +176,8 @@ public class VoteService {
                 .id(vote.getId())
                 .title(vote.getTitle())
                 .description(vote.getDescription())
-                .deadline(vote.getDeadline())
-
-                .createdAt(vote.getCreatedAt())
+                .deadline(vote.getDeadline().atOffset(ZoneOffset.ofHours(9)))
+                .createdAt(vote.getCreatedAt().atOffset(ZoneOffset.ofHours(9)))
                 .items(items.stream()
                         .map(item -> VoteResponse.Item.builder()
                                 .itemId(item.getId())
@@ -252,10 +252,10 @@ public class VoteService {
                 .id(vote.getId())
                 .title(vote.getTitle())
                 .description(vote.getDescription())
-                .deadline(vote.getDeadline())
+                .deadline(vote.getDeadline().atOffset(ZoneOffset.ofHours(9)))
                 .isClosed(isClosed) //  여기서 실시간 계산된 값 사용
-                .startTime(vote.getStartTime())  // 추가
-                .createdAt(vote.getCreatedAt())
+                .startTime(vote.getStartTime().atOffset(ZoneOffset.ofHours(9)))  // 추가
+                .createdAt(vote.getCreatedAt().atOffset(ZoneOffset.ofHours(9)))
                 .isPublic(vote.isPublic())
                 .isDeleted(vote.isDeleted())
                 .items(items.stream()
@@ -314,10 +314,10 @@ public class VoteService {
                 .id(vote.getId())
                 .title(vote.getTitle())
                 .description(vote.getDescription())
-                .deadline(vote.getDeadline())
                 .isClosed(isClosed)
-                .startTime(vote.getStartTime())
-                .createdAt(vote.getCreatedAt())
+                .deadline(vote.getDeadline().atOffset(ZoneOffset.ofHours(9)))
+                .createdAt(vote.getCreatedAt().atOffset(ZoneOffset.ofHours(9)))
+                .startTime(vote.getStartTime().atOffset(ZoneOffset.ofHours(9)))
                 .isPublic(vote.isPublic())
                 .isDeleted(vote.isDeleted())
                 .voted(voted) //

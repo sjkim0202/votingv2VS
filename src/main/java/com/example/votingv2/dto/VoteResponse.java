@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @Getter
@@ -12,10 +13,10 @@ public class VoteResponse {
     private Long id;
     private String title;
     private String description;
-    private LocalDateTime deadline;
+    private OffsetDateTime deadline;
     private boolean isClosed;
-    private LocalDateTime createdAt;
-    private LocalDateTime startTime;
+    private OffsetDateTime createdAt;
+    private OffsetDateTime startTime;
     private boolean isPublic;
     private boolean isDeleted;
     private boolean voted;

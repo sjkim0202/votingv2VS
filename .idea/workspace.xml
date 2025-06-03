@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="565d7f29-b902-405d-8951-a8179e79d01b" name="변경" comment="0529">
+    <list default="true" id="565d7f29-b902-405d-8951-a8179e79d01b" name="변경" comment="0603">
+      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/vote-list.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/vote-list.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/votingv2/dto/VoteResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/votingv2/dto/VoteResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/votingv2/service/VoteService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/votingv2/service/VoteService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,7 +48,7 @@
     <setting file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-jpa/3.4.4/f76849d9fd2852d84881c28ec43d53b55523a96f/spring-data-jpa-3.4.4-sources.jar!/org/springframework/data/jpa/repository/JpaRepository.java" root0="SKIP_INSPECTION" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
@@ -181,15 +182,7 @@
       <workItem from="1748514805340" duration="2621000" />
       <workItem from="1748564856808" duration="2331000" />
       <workItem from="1748684468023" duration="62000" />
-      <workItem from="1748931048829" duration="626000" />
-    </task>
-    <task id="LOCAL-00011" summary="0507">
-      <option name="closed" value="true" />
-      <created>1746622806413</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1746622806413</updated>
+      <workItem from="1748931048829" duration="2757000" />
     </task>
     <task id="LOCAL-00012" summary="0507">
       <option name="closed" value="true" />
@@ -575,7 +568,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748519399439</updated>
     </task>
-    <option name="localTasksCounter" value="60" />
+    <task id="LOCAL-00060" summary="0603">
+      <option name="closed" value="true" />
+      <created>1748931842186</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1748931842186</updated>
+    </task>
+    <option name="localTasksCounter" value="61" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -600,6 +601,7 @@
     <MESSAGE value="0521" />
     <MESSAGE value="0527" />
     <MESSAGE value="0529" />
-    <option name="LAST_COMMIT_MESSAGE" value="0529" />
+    <MESSAGE value="0603" />
+    <option name="LAST_COMMIT_MESSAGE" value="0603" />
   </component>
 </project>
