@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.math.BigInteger;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 /**
  * 투표 정보를 저장하는 엔티티
@@ -26,7 +27,7 @@ public class Vote {
     @Column(columnDefinition = "TEXT")
     private String description; // 설명
 
-    private LocalDateTime deadline; // 마감일
+    private OffsetDateTime deadline; // 마감일
 
 
 
@@ -35,10 +36,10 @@ public class Vote {
     private User createdBy; // 생성한 관리자 계정
 
     @Column(name = "start_time", nullable = false)
-    private LocalDateTime startTime;        // 시작시간
+    private OffsetDateTime startTime;        // 시작시간
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt = LocalDateTime.now(); // 생성 시각
+    private OffsetDateTime createdAt = OffsetDateTime.now(); // 생성 시각
 
     @Column(name = "is_public")
     private boolean isPublic;   // 공개여부

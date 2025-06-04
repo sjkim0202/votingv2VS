@@ -19,6 +19,7 @@ import com.example.votingv2.repository.VoteItemRepository;
 import com.example.votingv2.blockchain.BlockchainVoteService;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.List;
@@ -53,7 +54,7 @@ public class VoteService {
                 .startTime(request.getStartTime())
                 .deadline(request.getDeadline())
                 .isClosed(false)
-                .createdAt(LocalDateTime.now())
+                .createdAt(OffsetDateTime.now(ZoneId.of("Asia/Seoul")))
                 .build();
         voteRepository.save(vote);
 
@@ -177,8 +178,8 @@ public class VoteService {
                 .id(vote.getId())
                 .title(vote.getTitle())
                 .description(vote.getDescription())
-                .deadline(vote.getDeadline().atZone(ZoneId.of("Asia/Seoul")).toOffsetDateTime())
-                .createdAt(vote.getCreatedAt().atZone(ZoneId.of("Asia/Seoul")).toOffsetDateTime())
+                .deadline(vote.getDeadline())
+                .createdAt(vote.getCreatedAt())
                 .items(items.stream()
                         .map(item -> VoteResponse.Item.builder()
                                 .itemId(item.getId())
@@ -186,8 +187,8 @@ public class VoteService {
                                 .description(item.getDescription())
                                 .promise(item.getPromise())
                                 .image(item.getImage() != null && !item.getImage().startsWith("data:")
-                                    ? "data:image/png;base64," + item.getImage()
-                                    :item.getImage())
+                                        ? "data:image/png;base64," + item.getImage()
+                                        :item.getImage())
                                 .build())
                         .toList())
                 .build();
@@ -247,16 +248,17 @@ public class VoteService {
         List<VoteItem> items = voteItemRepository.findByVoteIdOrderByIdAsc(vote.getId());
 
         //  현재 시간이 마감일 이후면 true
-        boolean isClosed = LocalDateTime.now().isAfter(vote.getDeadline());
+        boolean isClosed = OffsetDateTime.now(ZoneId.of("Asia/Seoul")).isAfter(vote.getDeadline());
+
 
         return VoteResponse.builder()
                 .id(vote.getId())
                 .title(vote.getTitle())
                 .description(vote.getDescription())
-                .deadline(vote.getDeadline().atZone(ZoneId.of("Asia/Seoul")).toOffsetDateTime())
+                .deadline(vote.getDeadline())
                 .isClosed(isClosed) //  여기서 실시간 계산된 값 사용
-                .startTime(vote.getStartTime().atZone(ZoneId.of("Asia/Seoul")).toOffsetDateTime())  // 추가
-                .createdAt(vote.getCreatedAt().atZone(ZoneId.of("Asia/Seoul")).toOffsetDateTime())
+                .startTime(vote.getStartTime())  // 추가
+                .createdAt(vote.getCreatedAt())
                 .isPublic(vote.isPublic())
                 .isDeleted(vote.isDeleted())
                 .items(items.stream()
@@ -305,7 +307,8 @@ public class VoteService {
     }
     private VoteResponse toResponseWithVotedFlag(Vote vote, User user) {
         List<VoteItem> items = voteItemRepository.findByVoteIdOrderByIdAsc(vote.getId());
-        boolean isClosed = LocalDateTime.now().isAfter(vote.getDeadline());
+        boolean isClosed = OffsetDateTime.now(ZoneId.of("Asia/Seoul")).isAfter(vote.getDeadline());
+
 
         boolean voted = voteResultRepository
                 .findByUserIdAndVoteId(user.getId(), vote.getId())
@@ -316,9 +319,9 @@ public class VoteService {
                 .title(vote.getTitle())
                 .description(vote.getDescription())
                 .isClosed(isClosed)
-                .deadline(vote.getDeadline().atZone(ZoneId.of("Asia/Seoul")).toOffsetDateTime())
-                .createdAt(vote.getCreatedAt().atZone(ZoneId.of("Asia/Seoul")).toOffsetDateTime())
-                .startTime(vote.getStartTime().atZone(ZoneId.of("Asia/Seoul")).toOffsetDateTime())
+                .deadline(vote.getDeadline())
+                .createdAt(vote.getCreatedAt())
+                .startTime(vote.getStartTime())
                 .isPublic(vote.isPublic())
                 .isDeleted(vote.isDeleted())
                 .voted(voted) //

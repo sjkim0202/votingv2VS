@@ -1,5 +1,6 @@
 package com.example.votingv2.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -13,9 +14,12 @@ public class VoteResponse {
     private Long id;
     private String title;
     private String description;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private OffsetDateTime deadline;
     private boolean isClosed;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private OffsetDateTime createdAt;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private OffsetDateTime startTime;
     private boolean isPublic;
     private boolean isDeleted;

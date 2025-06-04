@@ -228,6 +228,7 @@ function renderClosedVote(vote) {
         <td>${vote.description || '설명이 없습니다.'}</td>
         <td>${new Date(vote.startTime).toLocaleString("ko-KR")}</td>
         <td>${new Date(vote.deadline).toLocaleString("ko-KR")}</td>
+
         <td>마감</td>
         <td>${controlButtons}</td>
     `;
