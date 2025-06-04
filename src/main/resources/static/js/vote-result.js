@@ -13,7 +13,7 @@ const fallbackImage =
 async function loadResults() {
     try {
         // 1. DB 기준 투표 결과 가져오기
-        const voteRes = await fetch(`https://kksl-voting.up.railway.app/api/votes/${voteId}`, {
+        const voteRes = await fetch(`https://kksl-votings.up.railway.app/api/votes/${voteId}`, {
             headers: { Authorization: "Bearer " + token },
         });
         const vote = await voteRes.json();
@@ -49,7 +49,7 @@ async function loadResults() {
         // 후보별 득표수 가져오기
         for (let item of vote.items) {
             const countRes = await fetch(
-                `https://kksl-voting.up.railway.app/api/votes/${voteId}/items/${item.itemId}/count`,
+                `https://kksl-votings.up.railway.app/api/votes/${voteId}/items/${item.itemId}/count`,
                 { headers: { Authorization: "Bearer " + token } }
             );
             const count = parseInt(await countRes.text(), 10);
@@ -96,7 +96,7 @@ async function loadResults() {
 
         // 4. 블록체인 기준 투표 결과 가져오기
         const blockchainRes = await fetch(
-            `https://kksl-voting.up.railway.app/api/votes/${voteId}/results/blockchain`,
+            `https://kksl-votings.up.railway.app/api/votes/${voteId}/results/blockchain`,
             { headers: { Authorization: "Bearer " + token } }
         );
         const blockchainVote = await blockchainRes.json();

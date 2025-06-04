@@ -1,7 +1,7 @@
 const accessToken = localStorage.getItem("accessToken");
 
 function loadDeletedVotes() {
-    fetch("https://kksl-voting.up.railway.app/api/votes/deleted", {
+    fetch("https://kksl-votings.up.railway.app/api/votes/deleted", {
         method: "GET",
         headers: {
             "Authorization": "Bearer " + accessToken
@@ -34,7 +34,7 @@ function loadDeletedVotes() {
 function deletePermanently(id) {
     if (!confirm("정말 이 투표를 완전 삭제하시겠습니까? 복구할 수 없습니다.")) return;
 
-    fetch(`https://kksl-voting.up.railway.app/api/votes/${id}/force`, {
+    fetch(`https://kksl-votings.up.railway.app/api/votes/${id}/force`, {
         method: "DELETE",
         headers: {
             "Authorization": "Bearer " + accessToken
@@ -57,7 +57,7 @@ function deletePermanently(id) {
 function restoreVote(id) {
     if (!confirm("이 투표를 복원하시겠습니까?")) return;
 
-    fetch(`https://kksl-voting.up.railway.app/api/votes/${id}/restore`, {
+    fetch(`https://kksl-votings.up.railway.app/api/votes/${id}/restore`, {
         method: "PATCH",
         headers: {
             "Authorization": "Bearer " + accessToken

@@ -4,11 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="565d7f29-b902-405d-8951-a8179e79d01b" name="변경" comment="0603">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/votingv2/dto/VoteRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/votingv2/dto/VoteRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/votingv2/dto/VoteResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/votingv2/dto/VoteResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/votingv2/entity/Vote.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/votingv2/entity/Vote.java" afterDir="false" />
+    <list default="true" id="565d7f29-b902-405d-8951-a8179e79d01b" name="변경" comment="0604">
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/votingv2/dto/VoteRequest$VoteItemRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/votingv2/dto/VoteRequest$VoteItemRequest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/votingv2/dto/VoteRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/votingv2/dto/VoteRequest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/votingv2/entity/Vote$VoteBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/votingv2/entity/Vote$VoteBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/votingv2/entity/Vote.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/votingv2/entity/Vote.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/static/js/create-vote.js" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/static/js/create-vote.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -183,15 +184,7 @@
       <workItem from="1748564856808" duration="2331000" />
       <workItem from="1748684468023" duration="62000" />
       <workItem from="1748931048829" duration="9021000" />
-      <workItem from="1749025605878" duration="301000" />
-    </task>
-    <task id="LOCAL-00016" summary="0507">
-      <option name="closed" value="true" />
-      <created>1746627367947</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1746627367947</updated>
+      <workItem from="1749025605878" duration="962000" />
     </task>
     <task id="LOCAL-00017" summary="0507">
       <option name="closed" value="true" />
@@ -577,7 +570,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748938945986</updated>
     </task>
-    <option name="localTasksCounter" value="65" />
+    <task id="LOCAL-00065" summary="0604">
+      <option name="closed" value="true" />
+      <created>1749026107272</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1749026107273</updated>
+    </task>
+    <option name="localTasksCounter" value="66" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -603,6 +604,7 @@
     <MESSAGE value="0527" />
     <MESSAGE value="0529" />
     <MESSAGE value="0603" />
-    <option name="LAST_COMMIT_MESSAGE" value="0603" />
+    <MESSAGE value="0604" />
+    <option name="LAST_COMMIT_MESSAGE" value="0604" />
   </component>
 </project>

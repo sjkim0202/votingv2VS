@@ -118,6 +118,9 @@ document.getElementById("vote-form").addEventListener("submit", async (e) => {
         return;
     }
 
+    const startTimeWithZone = startTime + ":00+09:00";
+    const deadlineWithZone = deadline + ":00+09:00";
+
     try {
         const response = await fetch("https://kksl-voting.up.railway.app/api/votes", {
             method: "POST",
@@ -125,7 +128,13 @@ document.getElementById("vote-form").addEventListener("submit", async (e) => {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`
             },
-            body: JSON.stringify({ title, description, startTime, deadline, items })
+            body: JSON.stringify({
+                title,
+                description,
+                startTime: startTimeWithZone,
+                deadline: deadlineWithZone,
+                items
+            })
         });
 
         if (response.ok) {

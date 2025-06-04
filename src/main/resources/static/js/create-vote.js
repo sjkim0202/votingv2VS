@@ -122,7 +122,7 @@ document.getElementById("vote-form").addEventListener("submit", async (e) => {
     const deadlineWithZone = deadline + ":00+09:00";
 
     try {
-        const response = await fetch("https://kksl-voting.up.railway.app/api/votes", {
+        const response = await fetch("https://kksl-votings.up.railway.app/api/votes", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

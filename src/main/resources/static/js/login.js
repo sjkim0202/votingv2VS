@@ -4,7 +4,7 @@ document.getElementById("login-form").addEventListener("submit", function (e) {
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
 
-    fetch("https://kksl-voting.up.railway.app/api/auth/login", {
+    fetch("https://kksl-votings.up.railway.app/api/auth/login", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

@@ -16,7 +16,7 @@ let lastSelectedRadio = null; // ✅ 이전 선택 추적
 if (!voteId) {
     alert("잘못된 접근입니다. (투표 ID 없음)");
 } else {
-    fetch(`https://kksl-voting.up.railway.app/api/votes/${voteId}`, {
+    fetch(`https://kksl-votings.up.railway.app/api/votes/${voteId}`, {
         headers: { Authorization: `Bearer ${token}` }
     })
         .then(res => {
@@ -111,7 +111,7 @@ document.getElementById("vote-form").addEventListener("submit", async e => {
     document.getElementById("loading-overlay").style.display = "block";
 
     try {
-        const res = await fetch(`https://kksl-voting.up.railway.app/api/votes/${voteId}/vote`, {
+        const res = await fetch(`https://kksl-votings.up.railway.app/api/votes/${voteId}/vote`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
